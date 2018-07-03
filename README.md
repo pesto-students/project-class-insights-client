@@ -32,7 +32,7 @@ We chose to go with the following Stack.
 4. React: The frontend of the application will use react as it's interactive framework.
 5. Redux - A state container that allows other components an easy to update interface.instead of calling the parent for the data binding the state will be direcly accessible to all the components. 
 6. Redux-thunk : It's a middleware used to handle asychronous actions in redux.it returns the function thus delaying 
->>>>>>> 1309c2a... WIP: Adding Changes to the Readme
+
 
 Team Members
 ---

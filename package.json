@@ -1,13 +1,13 @@
 {
   "name": "class-insights-client",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "https://github.com/PestoTech/project-class-insights-client.git",
   "author": "monisahmad <monis.ahmad42@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "webpack --config ./webpack.prod.config.js --progress --colors",
-    "start": "react-scripts start"
+    "start": "npm run build && NODE_ENV=production node server.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -26,6 +26,7 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
+    "express": "^4.16.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "^1.1.4"

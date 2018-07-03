@@ -18,15 +18,7 @@ Data provides feedback to the thinking process of the instructor that helps them
 
 # Getting Started
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 WIP
-=======
-The Process to set up the server goes here...
->>>>>>> 8df1c57... Adding Changes to the Readme
-=======
-WIP
->>>>>>> 6aa6e6e69c6d6f1cceca89b80b270ea9b613e3d4
 
 Stack
 ===

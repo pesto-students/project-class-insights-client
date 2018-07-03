@@ -5,5 +5,6 @@ class App extends Component {
     return (<h1>hello My world</h1>);
   }
 }
+
 export default App;
 

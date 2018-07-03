@@ -6,8 +6,13 @@
   "author": "monisahmad <monis.ahmad42@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "precommit": "lint-staged && npm test",
+    "prepush": "npm test",
     "build": "webpack --config ./webpack.prod.config.js --progress --colors",
-    "start": "npm run build && NODE_ENV=production node server.js"
+    "start": "npm run build && NODE_ENV=production node server.js",
+    "start:dev": "webpack --config ./webpack.config.js --mode=development && node server.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -15,20 +20,27 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.10.0",
+    "husky": "^0.14.3",
+    "jest-enzyme": "^6.0.2",
+    "lint-staged": "^7.2.0",
     "react-hot-loader": "^4.3.3",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
-    "webpack": "^4.14.0",
+    "enzyme-to-json": "^3.3.4",
     "express": "^4.16.3",
+    "jest": "^23.3.0",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "^1.1.4"
+    "webpack": "^4.14.0"
   }
 }

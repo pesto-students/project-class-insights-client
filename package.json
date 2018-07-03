@@ -6,7 +6,7 @@
   "author": "monisahmad <monis.ahmad42@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "npm install webpack && webpack --config ./webpack.prod.config.js --progress --colors",
+    "build": "webpack --config ./webpack.prod.config.js --progress --colors",
     "start": "react-scripts start"
   },
   "devDependencies": {

@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js --progress --colors",
-    "start": "npm start"
+    "start": "npm index.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

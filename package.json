@@ -10,9 +10,8 @@
     "test:coverage": "jest --coverage",
     "precommit": "lint-staged && npm test",
     "prepush": "npm test",
-    "build": "webpack --config ./webpack.prod.config.js --progress --colors",
-    "start": "npm run build && NODE_ENV=production node server.js",
-    "start:dev": "webpack --config ./webpack.config.js --mode=development && node server.js"
+    "start": "webpack --mode production src/",
+    "start:dev": "webpack-dev-server --mode development src/ --content-base public/"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -23,24 +22,37 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.10.0",
     "husky": "^0.14.3",
     "jest-enzyme": "^6.0.2",
     "lint-staged": "^7.2.0",
+    "react-cosmos": "^4.5.0",
     "react-hot-loader": "^4.3.3",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
     "enzyme-to-json": "^3.3.4",
     "express": "^4.16.3",
+    "final-form": "^4.8.3",
+    "history": "^4.7.2",
     "jest": "^23.3.0",
+    "lodash": "^4.17.10",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-final-form": "^3.6.4",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "store": "^2.0.12",
     "webpack": "^4.14.0"
   }
 }

@@ -5,6 +5,7 @@ import { Form, Field } from 'react-final-form';
 import { routes } from '../../constants';
 import { history } from '../../helpers';
 import { SESSION_STORAGE_KEY } from '../../constants/auth.constant';
+import { validations } from '../../helpers/validations';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class LoginPage extends React.Component {
             <form onSubmit={handleSubmit}>
               <div>
                 email
-                <Field name="email">
+                <Field name="email" validate={validations.required}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="email" placeholder="Enter your email" />
@@ -55,7 +56,7 @@ class LoginPage extends React.Component {
               </div>
               <div>
                       Password
-                <Field name="password">
+                <Field name="password" validate={validations.composeValidators(validations.required, validations.minValue(8))}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="password" placeholder="Enter password" />

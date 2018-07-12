@@ -41,7 +41,11 @@ const login = async (users) => {
 const register = async (users) => {
   const requestParams = generateParams(users);
   const result = await fetch(`${BACKEND_URL}${routes.BackEndSignUp}`, requestParams);
-  return getResponse(result);
+  const user = await getResponse(result);
+  if (user.error) {
+    throw user.error;
+  }
+  return user;
 };
 export const userService = {
   login,

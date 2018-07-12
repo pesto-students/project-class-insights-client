@@ -5,6 +5,7 @@ import { Form, Field } from 'react-final-form';
 import { routes } from '../../constants';
 import { history } from '../../helpers';
 import { SESSION_STORAGE_KEY } from '../../constants/auth.constant';
+import { validations } from '../../helpers/validations';
 
 class RegisterPage extends React.Component {
   constructor(props) {
@@ -18,9 +19,12 @@ class RegisterPage extends React.Component {
     }
   }
 
-  handleSubmit(formData) {
+  async handleSubmit(formData) {
     const { register } = this.props;
-    register(formData);
+    const response = await register(formData);
+    if (response !== true) {
+      alert(response);
+    }
   }
 
   render() {
@@ -39,7 +43,7 @@ class RegisterPage extends React.Component {
             <form name="form" onSubmit={handleSubmit}>
               <div>
                 name
-                <Field name="name">
+                <Field name="name" validate={validations.required}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="text" placeholder="Enter your name" />
@@ -55,7 +59,7 @@ class RegisterPage extends React.Component {
             Email
               <div>
                 email
-                <Field name="email">
+                <Field name="email" validate={validations.required}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="email" placeholder="Enter your email" />
@@ -72,7 +76,7 @@ class RegisterPage extends React.Component {
             Password
               <div>
                 email
-                <Field name="password">
+                <Field name="password" validate={validations.composeValidators(validations.required, validations.minValue(8))}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="password" placeholder="Enter your Password" />

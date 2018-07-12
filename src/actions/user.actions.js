@@ -78,9 +78,11 @@ const register = (email, password) => {
       dispatch(success(user));
       history.push('/login');
       dispatch(alertActions.success('Registeration Done'));
+      return true;
     } catch (error) {
       dispatch(failure(error.toString()));
       dispatch(alertActions.error(error.toString()));
+      return error.toString();
     }
   };
 };

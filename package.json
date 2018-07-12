@@ -10,8 +10,9 @@
     "test:coverage": "jest --coverage",
     "precommit": "lint-staged && npm test",
     "prepush": "npm test",
-    "start": "webpack --mode production src/",
-    "start:dev": "webpack-dev-server --mode development src/ --content-base public/"
+    "build": "webpack --config webpack.prod.js",
+    "start": "node server.js",
+    "start:dev": "webpack-dev-server --mode development"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -41,6 +42,7 @@
     "express": "^4.16.3",
     "final-form": "^4.8.3",
     "history": "^4.7.2",
+    "html-webpack-plugin": "^3.2.0",
     "jest": "^23.3.0",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.2",
@@ -53,6 +55,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "store": "^2.0.12",
+    "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^4.14.0"
   }
 }

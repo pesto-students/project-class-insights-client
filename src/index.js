@@ -13,4 +13,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
-module.hot.accept();
+
+if (module.hot) {
+  module.hot.accept();
+}

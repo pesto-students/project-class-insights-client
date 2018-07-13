@@ -59,7 +59,7 @@ class RegisterPage extends React.Component {
             Email
               <div>
                 email
-                <Field name="email" validate={validations.required}>
+                <Field name="email" validate={validations.composeValidators(validations.required, validations.emailFormat)}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="email" placeholder="Enter your email" />

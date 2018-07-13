@@ -10,7 +10,7 @@
     "test:coverage": "jest --coverage",
     "precommit": "lint-staged && npm test",
     "prepush": "npm test",
-    "build": "webpack --config webpack.prod.js",
+    "heroku-postbuild": "webpack --config webpack.prod.js",
     "start": "node server.js",
     "start:dev": "webpack-dev-server --mode development"
   },

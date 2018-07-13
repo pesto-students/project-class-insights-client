@@ -14,16 +14,23 @@ module.exports = {
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },
   output: {
-    filename: 'bundle-[hash].js',
     path: path.resolve(__dirname, 'public'),
+    filename: 'bundle-[hash].js',
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './template.html',
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './template.html',

@@ -2,10 +2,24 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Form, Field } from 'react-final-form';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Label,
+  Input,
+  Card,
+  CardBody,
+} from 'reactstrap';
+
 import { routes } from '../../constants';
 import { history } from '../../helpers';
 import { SESSION_STORAGE_KEY } from '../../constants/auth.constant';
 import { validations } from '../../helpers/validations';
+
+import FormError from '../FormError';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -19,77 +33,100 @@ class LoginPage extends React.Component {
     }
   }
 
-
   async handleSubmit(formData) {
     const { login } = this.props;
     login(formData);
   }
 
-
   render() {
-    const { loggingIn } = this.props;
     return (
-      <div>
-        <h2>
-          Login
-        </h2>
-        <Form
-          onSubmit={this.handleSubmit}
-          render={({
-            handleSubmit, submitting, pristine,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <div>
-                email
-                <Field name="email" validate={validations.composeValidators(validations.required, validations.emailFormat)}>
-                  {({ input, meta }) => (
-                    <div>
-                      <input {...input} type="email" placeholder="Enter your email" />
-                      {meta.error && meta.touched && (
-                      <span>
-                        {meta.error}
-                      </span>
-                      )}
-                    </div>
+      <Container className="h-100">
+        <Row className="align-items-center h-100">
+          <Col
+            sm="6"
+            md="8"
+            lg="5"
+            xl="6"
+            className="mx-auto"
+          >
+            <Card className="mt-5 justify-content-center">
+              <CardBody className="mx-0">
+                <h2 className="text-center">
+                  Login
+                </h2>
+                <Form
+                  onSubmit={this.handleSubmit}
+                  render={({ handleSubmit, submitting, pristine }) => (
+                    <form onSubmit={handleSubmit}>
+                      <FormGroup>
+                        <Field name="email" validate={validations.required}>
+                          {({ input, meta }) => (
+                            <div>
+                              <Label for="email">
+                                Email
+                              </Label>
+                              <Input
+                                {...input}
+                                type="email"
+                                name="email"
+                                id="email"
+                                placeholder="Enter your email"
+                                className="form-control mt-2"
+                              />
+                              <FormError meta={meta} />
+                            </div>
+                          )}
+                        </Field>
+                      </FormGroup>
+                      <FormGroup>
+                        <Field name="password" validate={validations.composeValidators(validations.required, validations.minValue(8))}>
+                          {({ input, meta }) => (
+                            <div>
+                              <Label for="password">
+                                Password
+                              </Label>
+                              <Input
+                                {...input}
+                                type="password"
+                                id="password"
+                                placeholder="Enter password"
+                                className="form-control mt-2 mb-2"
+                              />
+                              <FormError meta={meta} />
+                            </div>
+                          )}
+                        </Field>
+                        <Row className="mx-auto">
+                          <Button type="submit" disabled={submitting || pristine} className="mr-3 mx-auto" color="primary" size="lg">
+                            Login
+                          </Button>
+                        </Row>
+                        <Row>
+                          <Col className="text-center mt-3">
+                            Do not have an account?
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col className="text-center mt-3">
+                            <NavLink to={routes.ClientSignup}>
+                              Click here to Register
+                            </NavLink>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </form>
                   )}
-                </Field>
-              </div>
-              <div>
-                      Password
-                <Field name="password" validate={validations.composeValidators(validations.required, validations.minValue(8))}>
-                  {({ input, meta }) => (
-                    <div>
-                      <input {...input} type="password" placeholder="Enter password" />
-                      {meta.error && meta.touched && (
-                      <span>
-                        {meta.error}
-                      </span>
-                      )}
-                    </div>
-                  )}
-                </Field>
-              </div>
-              <button type="submit" disabled={submitting || pristine}>
-          Login
-              </button>
-              { loggingIn && (
-              <h2>
-            Logging In
-              </h2>
-              )}
-              <NavLink to={routes.ClientSignup}>
-          Register
-              </NavLink>
-            </form>
-          )}
-        />
-      </div>
+                />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
 
 // submitted is used here to do the checks if the input fields are empty or not.
-
 
 LoginPage.propTypes = {
   login: PropTypes.func.isRequired,

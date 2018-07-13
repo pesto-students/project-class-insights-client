@@ -15,6 +15,7 @@ const appRoutes = (
         <Route path={routes.ClientLogin} component={LoginPage} />
         <PrivateRoute exact path="/" component={HomePage} />
         <Route path={routes.ClientSignup} component={RegisterPage} />
+        <Route component={LoginPage} />
       </Switch>
     </div>
   </Router>

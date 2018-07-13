@@ -63,4 +63,4 @@ typings/
 .next
 
 #ignore the public folder
-public/
+public/**

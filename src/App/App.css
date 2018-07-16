@@ -1,0 +1,17 @@
+.navbar {
+  margin-bottom: 30px;
+}
+
+.navbar {
+  background: linear-gradient(to right, #5c4ac7, #6b56e0);
+  border-bottom: 1px solid #e7e7e7;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: white;
+}
+
+.navbar-light .navbar-brand {
+  color: white;
+}

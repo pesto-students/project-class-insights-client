@@ -7,14 +7,16 @@ import LoginPage from '../components/LoginPage';
 import RegisterPage from '../components/RegisterPage';
 import PrivateRoute from '../components/PrivateRoute';
 import { history } from '../helpers/history';
+import FeedBackForm from '../components/FeedBackForm';
 
 const appRoutes = (
   <Router history={history}>
     <div>
       <Switch>
         <Route path={routes.ClientLogin} component={LoginPage} />
-        <PrivateRoute exact path="/" component={HomePage} />
+        <PrivateRoute exact path={routes.Home} component={HomePage} />
         <Route path={routes.ClientSignup} component={RegisterPage} />
+        <Route path={routes.ClientFeedBackForm} component={FeedBackForm} />
         <Route component={LoginPage} />
       </Switch>
     </div>

@@ -4,4 +4,5 @@ export const routes = {
   BackEndSignUp: '/signup',
   ClientLogin: '/login',
   ClientSignup: '/register',
+  ClientFeedBackForm: '/feedback',
 };

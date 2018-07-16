@@ -14,6 +14,10 @@ class HomePage extends React.Component {
         <NavLink to={routes.ClientLogin} onClick={logout}>
           Log Out
         </NavLink>
+        <br />
+        <NavLink to={routes.ClientFeedBackForm}>
+        Feed Back
+        </NavLink>
       </div>
     );
   }

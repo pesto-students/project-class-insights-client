@@ -11,7 +11,6 @@ class FeedBackForm extends React.Component {
       response: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.addText = this.addText.bind(this);
   }
 
   handleSubmit(formData) {

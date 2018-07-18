@@ -13,7 +13,7 @@ class App extends React.Component {
     return (
       <div className="root-container">
         <NavBar />
-        <div className="container">
+        <div>
           {appRoutes}
         </div>
       </div>

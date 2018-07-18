@@ -153,6 +153,12 @@ button:hover {
   text-decoration: none;
 }
 
+button:hover,
+button:active,
+button:focus {
+  color: #fff;
+}
+
 ul {
   padding: 0;
   margin: 0;

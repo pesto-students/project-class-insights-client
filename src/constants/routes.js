@@ -5,4 +5,5 @@ export const routes = {
   ClientLogin: '/login',
   ClientSignup: '/register',
   ClientFeedBackForm: '/feedback',
+  Dashboard: '/dashboard',
 };

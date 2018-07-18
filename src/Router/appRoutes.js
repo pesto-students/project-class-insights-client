@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 
 import { routes } from '../constants/routes';
 import HomePage from '../components/HomePage';
+import DashboardPage from '../components/DashboardPage';
 import LoginPage from '../components/LoginPage';
 import RegisterPage from '../components/RegisterPage';
 import PrivateRoute from '../components/PrivateRoute';
@@ -17,6 +18,7 @@ const appRoutes = (
         <PrivateRoute exact path={routes.Home} component={HomePage} />
         <Route path={routes.ClientSignup} component={RegisterPage} />
         <Route path={routes.ClientFeedBackForm} component={FeedBackForm} />
+        <Route path={routes.Dashboard} component={DashboardPage} />
         <Route component={LoginPage} />
       </Switch>
     </div>

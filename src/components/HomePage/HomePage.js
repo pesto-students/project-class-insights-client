@@ -16,7 +16,10 @@ class HomePage extends React.Component {
         </NavLink>
         <br />
         <NavLink to={routes.ClientFeedBackForm}>
-        Feed Back
+          Feed Back
+        </NavLink>
+        <NavLink to={routes.SubmitFeedback}>
+          Submit Feedback
         </NavLink>
       </div>
     );

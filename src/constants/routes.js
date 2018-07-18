@@ -7,4 +7,5 @@ export const routes = {
   ClientFeedBackForm: '/feedback',
   Dashboard: '/dashboard',
   BatchesPage: '/batches',
+  SubmitFeedback: '/submitFeedback',
 };

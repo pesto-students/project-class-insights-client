@@ -13,8 +13,8 @@ class FeedBackForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(formData) {
-    formService.sendForm(formData);
+  async handleSubmit(formData) {
+    await formService.sendForm(formData);
     this.setState({ response: 'submitted' });
   }
 
@@ -75,7 +75,7 @@ class FeedBackForm extends React.Component {
                   )}
                 </Field>
               </div>
-              <FieldArray name="test">
+              <FieldArray name="subtopicsArray">
                 {({ fields }) => fields.map((name, index) => (
                   <div key={name}>
                     {index + 1}
@@ -116,7 +116,7 @@ class FeedBackForm extends React.Component {
               <div>
                 <button
                   type="button"
-                  onClick={() => push('test', undefined)}
+                  onClick={() => push('subtopicsArray', undefined)}
                 >
                 Add fields
                 </button>

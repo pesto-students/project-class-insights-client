@@ -8,14 +8,18 @@ const getResponse = async (response) => {
 };
 
 const generateParams = ({
-  subject, topic, subtopics, date, batchId, ...rest
+  subject, topic, subtopics, date, batchId, subtopicsArray,
 }) => {
-  const arrayOfAllSubtopicsExceptFirst = Object.keys(rest)
-    .map(item => ({ subtopicName: rest[item] }));
-  arrayOfAllSubtopicsExceptFirst.shift();
-  const firstElementinArray = [{ subtopicName: subtopics }];
-  const newSubtopics = firstElementinArray.concat(arrayOfAllSubtopicsExceptFirst);
+  let newSubtopics = [];
+  if (subtopicsArray) {
+    const arrayOfAllSubtopicsExceptFirst = Object.keys(subtopicsArray)
+      .map(item => ({ subtopicName: subtopicsArray[item] }));
 
+    const firstElementinArray = [{ subtopicName: subtopics }];
+    newSubtopics = firstElementinArray.concat(arrayOfAllSubtopicsExceptFirst);
+  } else {
+    newSubtopics = [{ subtopicName: subtopics }];
+  }
   return {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

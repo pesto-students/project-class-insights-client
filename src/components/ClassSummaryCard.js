@@ -141,14 +141,26 @@ class ClassSummaryCard extends Component {
 }
 
 ClassSummaryCard.defaultProps = {
-  classData: {},
+  classData: {
+    className: null,
+    studentFeedbackRatio: null,
+    highestRatedTopic: null,
+    highestRatedTopicApproval: null,
+    lowestRatedTopic: null,
+    lowestRatedTopicApproval: null,
+    revisionRequests: null,
+  },
 };
 
 ClassSummaryCard.propTypes = {
-  classData: PropTypes.objectOf(PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ])),
+  classData: PropTypes.exact({
+    className: PropTypes.string,
+    studentFeedbackRatio: PropTypes.string,
+    highestRatedTopic: PropTypes.string,
+    highestRatedTopicApproval: PropTypes.string,
+    lowestRatedTopic: PropTypes.string,
+    lowestRatedTopicApproval: PropTypes.string,
+    revisionRequests: PropTypes.number,
+  }),
 };
-
 export default ClassSummaryCard;

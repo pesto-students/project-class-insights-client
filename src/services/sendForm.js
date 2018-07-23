@@ -1,4 +1,5 @@
 import { BACKEND_URL } from '../constants/auth.constant';
+import { defaultOptions } from '../helpers/auth-header';
 
 
 const getResponse = async (response) => {
@@ -22,7 +23,7 @@ const generateParams = ({
   }
   return {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...defaultOptions },
     body: JSON.stringify({
       subject,
       topic,

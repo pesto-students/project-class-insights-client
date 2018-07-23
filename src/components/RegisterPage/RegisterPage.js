@@ -61,7 +61,7 @@ class RegisterPage extends React.Component {
                     <form name="form" onSubmit={handleSubmit}>
 
                       <FormGroup>
-                        <Field name="name" validate={validations.composeValidators(validations.required, validations.emailFormat)}>
+                        <Field name="name" validate={validations.composeValidators(validations.required)}>
                           {({ input, meta }) => (
                             <div>
                               <Label for="name">

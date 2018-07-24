@@ -320,3 +320,17 @@
   box-shadow: none;
   padding: 0;
 }
+
+.closeButton {
+  color: red;
+  position: absolute;
+  right: -20px;
+  bottom: 4px;
+  font-size: 2em;
+  border: 1px solid red;
+}
+
+.closeButton:hover {
+  color: crimson;
+  opacity: 1;
+}

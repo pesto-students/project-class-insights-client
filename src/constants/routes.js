@@ -6,4 +6,5 @@ export const routes = {
   ClientSignup: '/register',
   ClientFeedBackForm: '/feedback',
   Dashboard: '/dashboard',
+  BatchesPage: '/batches',
 };

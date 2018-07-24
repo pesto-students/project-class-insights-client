@@ -9,6 +9,8 @@ import RegisterPage from '../components/RegisterPage';
 import PrivateRoute from '../components/PrivateRoute';
 import { history } from '../helpers/history';
 import FeedBackForm from '../components/FeedBackForm';
+import BatchesPage from '../components/BatchesPage';
+
 
 const appRoutes = (
   <Router history={history}>
@@ -19,6 +21,7 @@ const appRoutes = (
         <Route path={routes.ClientSignup} component={RegisterPage} />
         <Route path={routes.ClientFeedBackForm} component={FeedBackForm} />
         <Route path={routes.Dashboard} component={DashboardPage} />
+        <Route path={routes.BatchesPage} component={BatchesPage} />
         <Route component={LoginPage} />
       </Switch>
     </div>

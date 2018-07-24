@@ -1,6 +1,7 @@
 import React from 'react';
 
 import appRoutes from '../Router/appRoutes';
+import 'react-table/react-table.css';
 import './App.css';
 import '../styles/buttons.css';
 import '../styles/card.css';

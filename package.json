@@ -8,8 +8,8 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "precommit": "lint-staged && npm test",
-    "prepush": "npm test",
+    "precommit": "lint-staged && yarn test",
+    "prepush": "yarn test",
     "heroku-postbuild": "webpack --config webpack.prod.js",
     "start": "node server.js",
     "start:dev": "webpack-dev-server --mode development"

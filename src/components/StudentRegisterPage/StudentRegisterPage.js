@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Form, Field } from 'react-final-form';
+import queryString from 'query-string';
+
 import {
   Container,
   Row,
@@ -16,13 +18,13 @@ import {
 
 
 import { routes } from '../../constants';
-import { history } from '../../helpers';
+import { history, decodeToken } from '../../helpers';
 import { SESSION_STORAGE_KEY } from '../../constants/auth.constant';
 import { validations } from '../../helpers/validations';
 
 import FormError from '../FormError';
 
-class RegisterPage extends React.Component {
+class StudentRegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,7 +42,11 @@ class RegisterPage extends React.Component {
   }
 
   render() {
-    const data = { isInstructor: true };
+    const { location } = this.props;
+    const { search } = location;
+    const { token } = queryString.parse(search);
+    const { email } = decodeToken(token);
+    const data = { email, isInstructor: false };
     return (
       <Container className="h-100">
         <Row className="align-items-center h-100">
@@ -54,7 +60,7 @@ class RegisterPage extends React.Component {
             <Card className="mt-5 justify-content-center">
               <CardBody className="mx-0">
                 <h2 className="text-center">
-                  Register
+                  Student Register
                 </h2>
                 <Form
                   initialValues={data}
@@ -84,7 +90,7 @@ class RegisterPage extends React.Component {
                       </FormGroup>
 
                       <FormGroup>
-                        <Field name="email" validate={validations.required}>
+                        <Field name="email">
                           {({ input, meta }) => (
                             <div>
                               <Label for="email">
@@ -97,6 +103,7 @@ class RegisterPage extends React.Component {
                                 id="email"
                                 placeholder="Enter your email"
                                 className="form-control mt-2"
+                                disabled
                               />
                               <FormError meta={meta} />
                             </div>
@@ -160,9 +167,12 @@ class RegisterPage extends React.Component {
   }
 }
 
-RegisterPage.propTypes = {
+StudentRegisterPage.propTypes = {
   register: PropTypes.func.isRequired,
   registering: PropTypes.bool.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }).isRequired,
 };
 
-export default RegisterPage;
+export default StudentRegisterPage;

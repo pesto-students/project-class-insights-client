@@ -8,4 +8,5 @@ export const routes = {
   Dashboard: '/dashboard',
   BatchesPage: '/batches',
   SubmitFeedback: '/submitFeedback',
+  StudentSignup: '/registerStudent',
 };

@@ -10,7 +10,7 @@ import PrivateRoute from '../components/PrivateRoute';
 import { history } from '../helpers/history';
 import FeedBackForm from '../components/FeedBackForm';
 import BatchesPage from '../components/BatchesPage';
-
+import BatchesDetailsPage from '../components/BatchesDetailsPage';
 import StudentFeedbackForm from '../components/StudentFeedbackForm';
 import StudentRegisterPage from '../components/StudentRegisterPage';
 
@@ -24,6 +24,7 @@ const appRoutes = (
         <Route path={routes.ClientFeedBackForm} component={FeedBackForm} />
         <Route path={routes.Dashboard} component={DashboardPage} />
         <Route path={routes.BatchesPage} component={BatchesPage} />
+        <Route path={routes.BatchesDetailsPage} component={BatchesDetailsPage} />
         <Route path={routes.SubmitFeedback} component={StudentFeedbackForm} />
         <Route path={routes.StudentSignup} component={StudentRegisterPage} />
         <Route component={LoginPage} />

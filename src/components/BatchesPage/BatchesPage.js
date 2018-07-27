@@ -5,19 +5,40 @@ import {
   Row,
   Col,
   Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 class BatchesPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modal: false,
+      selectedBatch: {
+        batchID: '',
+        status: null,
+        students: null,
+        creationDate: '',
+      },
+    };
     this.manageBatch = this.manageBatch.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
-  manageBatch(batchID) {
-    this.setState(() => ({
-      selectedBatchId: batchID,
+  toggleModal() {
+    this.setState(previousState => ({
+      modal: !previousState.modal,
     }));
+  }
+
+  manageBatch(batch) {
+    this.setState(() => ({
+      selectedBatch: batch,
+    }));
+    this.toggleModal();
   }
 
   render() {
@@ -87,14 +108,14 @@ class BatchesPage extends Component {
       },
       {
         Header: () => (
-          <ActionHeader />
+          <ActionHeader onClick={this.toggleModal} />
         ),
         accessor: 'batchID',
         Cell: row => (
           <Row className="align-items-center">
             <Button
               type="button"
-              onClick={e => this.manageBatch(row.value, e)}
+              onClick={() => this.manageBatch(row.original)}
               size="sm"
               className="mx-auto"
             >
@@ -104,13 +125,17 @@ class BatchesPage extends Component {
         ),
       },
     ];
-
+    const {
+      modal,
+      selectedBatch,
+    } = this.state;
+    const { className } = this.props;
     return (
       <Container>
         <Row className="align-items-center h-100">
           <Col className="mx-auto">
             <h2 className="text-center">
-              Batches
+              Batches List
             </h2>
           </Col>
         </Row>
@@ -124,6 +149,12 @@ class BatchesPage extends Component {
             />
           </Col>
         </Row>
+        <BatchesModal
+          isOpen={modal}
+          toggleModalFunction={this.toggleModal}
+          className={className}
+          batchDetails={selectedBatch}
+        />
       </Container>
     );
   }
@@ -134,5 +165,86 @@ const ActionHeader = () => (
     Action
   </span>
 );
+
+const BatchesModal = (props) => {
+  const {
+    isOpen,
+    toggleModalFunction,
+    className,
+    batchDetails,
+  } = props;
+  return (
+    <Modal isOpen={isOpen} toggle={toggleModalFunction} className={className}>
+      <ModalHeader toggle={toggleModalFunction}>
+        <Row>
+          <Col>
+            Batch Information
+          </Col>
+        </Row>
+      </ModalHeader>
+      <ModalBody>
+        <Row>
+          <Col>
+            {'Batch Name - '}
+            {batchDetails.batchID}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {'status - '}
+            {batchDetails.status === 0 ? 'Inactive' : 'Active' }
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {'Students - '}
+            {batchDetails.students}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {'creationDate - '}
+            {batchDetails.creationDate}
+          </Col>
+        </Row>
+      </ModalBody>
+      <ModalFooter>
+        <Button color="primary" onClick={toggleModalFunction}>
+          Save changes
+        </Button>
+        <Button color="secondary" onClick={toggleModalFunction}>
+          Cancel
+        </Button>
+      </ModalFooter>
+    </Modal>
+  );
+};
+
+BatchesPage.defaultProps = {
+  className: null,
+};
+
+BatchesPage.propTypes = {
+  className: PropTypes.string,
+};
+
+BatchesModal.defaultProps = {
+  isOpen: false,
+  toggleModalFunction: null,
+  className: '',
+  batchDetails: {},
+};
+
+BatchesModal.propTypes = {
+  isOpen: PropTypes.bool,
+  toggleModalFunction: PropTypes.func,
+  className: PropTypes.string,
+  batchDetails: PropTypes.shape({
+    batchID: PropTypes.string,
+    status: PropTypes.number,
+    students: PropTypes.number,
+    creationDate: PropTypes.string,
+  }),
+};
 
 export default BatchesPage;

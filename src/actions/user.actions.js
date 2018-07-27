@@ -2,6 +2,8 @@ import { userConstants } from '../constants';
 import { userService } from '../services';
 import { history } from '../helpers/history';
 import { alertActions } from './alert.actions';
+import { decodeAuthToken } from '../helpers/decodeAuthToken';
+import { SESSION_STORAGE_KEY } from '../constants/auth.constant';
 
 const login = (username, password) => {
   const request = (user) => {
@@ -32,12 +34,18 @@ const login = (username, password) => {
     try {
       const user = await userService.login(username, password);
       dispatch(success(user));
-      history.push('/');
+      const { token } = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_KEY));
+      const userData = decodeAuthToken(token);
+      if (userData.isInstructor === true) {
+        history.push('/dashboard');
+      } else {
+        history.push('/submitFeedback');
+      }
       return true;
     } catch (error) {
       dispatch(failure(error));
       dispatch(alertActions.error(error));
-      return false;
+      return error.toString();
     }
   };
 };
@@ -76,8 +84,7 @@ const register = (email, password) => {
     try {
       const user = await userService.register(email, password);
       dispatch(success(user));
-      history.push('/login');
-      dispatch(alertActions.success('Registeration Done'));
+      dispatch(alertActions.success('Registration Done'));
       return true;
     } catch (error) {
       dispatch(failure(error.toString()));

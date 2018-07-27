@@ -24,6 +24,7 @@ import FormError from '../FormError';
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { loginFailure: '' };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -35,10 +36,14 @@ class LoginPage extends React.Component {
 
   async handleSubmit(formData) {
     const { login } = this.props;
-    login(formData);
+    const loginReponse = await login(formData);
+    if (loginReponse !== true) {
+      this.setState({ loginFailure: loginReponse });
+    }
   }
 
   render() {
+    const { loginFailure } = this.state;
     return (
       <Container className="h-100">
         <Row className="align-items-center h-100">
@@ -54,12 +59,20 @@ class LoginPage extends React.Component {
                 <h2 className="text-center">
                   Login
                 </h2>
+                <small className="form-text text-danger">
+                  {loginFailure}
+                </small>
                 <Form
                   onSubmit={this.handleSubmit}
-                  render={({ handleSubmit, submitting, pristine }) => (
+                  render={({
+                    handleSubmit,
+                    submitting,
+                    pristine,
+                    invalid,
+                  }) => (
                     <form onSubmit={handleSubmit}>
                       <FormGroup>
-                        <Field name="email" validate={validations.required}>
+                        <Field name="email" validate={validations.composeValidators(validations.required, validations.emailFormat)}>
                           {({ input, meta }) => (
                             <div>
                               <Label for="email">
@@ -97,7 +110,7 @@ class LoginPage extends React.Component {
                           )}
                         </Field>
                         <Row className="mx-auto">
-                          <Button type="submit" disabled={submitting || pristine} className="mr-3 mx-auto" color="primary" size="lg">
+                          <Button type="submit" disabled={submitting || pristine || invalid} className="mr-3 mx-auto" color="primary" size="lg">
                             Login
                           </Button>
                         </Row>

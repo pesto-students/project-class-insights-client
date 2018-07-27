@@ -25,6 +25,10 @@ import FormError from '../FormError';
 class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      registerFailure: '',
+      registerSuccess: '',
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -36,11 +40,23 @@ class RegisterPage extends React.Component {
 
   async handleSubmit(formData) {
     const { register } = this.props;
-    await register(formData);
+    const response = await register(formData);
+    if (response !== true) {
+      this.setState({
+        registerFailure: response,
+        registerSuccess: '',
+      });
+    } else {
+      this.setState({
+        registerSuccess: 'Registration Successful, Please check your email for confirmation link',
+        registerFailure: '',
+      });
+    }
   }
 
   render() {
     const data = { isInstructor: true };
+    const { registerFailure, registerSuccess } = this.state;
     return (
       <Container className="h-100">
         <Row className="align-items-center h-100">
@@ -56,10 +72,21 @@ class RegisterPage extends React.Component {
                 <h2 className="text-center">
                   Register
                 </h2>
+                <small className="form-text text-danger">
+                  {registerFailure}
+                </small>
+                <small className="form-text text-success">
+                  {registerSuccess}
+                </small>
                 <Form
                   initialValues={data}
                   onSubmit={this.handleSubmit}
-                  render={({ handleSubmit, submitting, pristine }) => (
+                  render={({
+                    handleSubmit,
+                    submitting,
+                    pristine,
+                    invalid,
+                  }) => (
                     <form name="form" onSubmit={handleSubmit}>
 
                       <FormGroup>
@@ -84,7 +111,7 @@ class RegisterPage extends React.Component {
                       </FormGroup>
 
                       <FormGroup>
-                        <Field name="email" validate={validations.required}>
+                        <Field name="email" validate={validations.composeValidators(validations.required, validations.emailFormat)}>
                           {({ input, meta }) => (
                             <div>
                               <Label for="email">
@@ -130,7 +157,7 @@ class RegisterPage extends React.Component {
                             xl="7"
                             md="6"
                           >
-                            <Button type="submit" disabled={submitting || pristine} color="primary" size="lg" block>
+                            <Button type="submit" disabled={submitting || pristine || invalid} color="primary" size="lg" block>
                               Signup
                             </Button>
                           </Col>

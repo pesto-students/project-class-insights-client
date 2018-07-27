@@ -27,6 +27,10 @@ import FormError from '../FormError';
 class StudentRegisterPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      registerFailure: '',
+      registerSuccess: '',
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -38,7 +42,18 @@ class StudentRegisterPage extends React.Component {
 
   async handleSubmit(formData) {
     const { register } = this.props;
-    await register(formData);
+    const response = await register(formData);
+    if (response !== true) {
+      this.setState({
+        registerFailure: response,
+        registerSuccess: '',
+      });
+    } else {
+      this.setState({
+        registerSuccess: 'Registration Successful, Please check your email for confirmation link',
+        registerFailure: '',
+      });
+    }
   }
 
   render() {
@@ -47,6 +62,7 @@ class StudentRegisterPage extends React.Component {
     const { token } = queryString.parse(search);
     const { email } = decodeToken(token);
     const data = { email, isInstructor: false };
+    const { registerFailure, registerSuccess } = this.state;
     return (
       <Container className="h-100">
         <Row className="align-items-center h-100">
@@ -62,6 +78,12 @@ class StudentRegisterPage extends React.Component {
                 <h2 className="text-center">
                   Student Register
                 </h2>
+                <small className="form-text text-danger">
+                  {registerFailure}
+                </small>
+                <small className="form-text text-success">
+                  {registerSuccess}
+                </small>
                 <Form
                   initialValues={data}
                   onSubmit={this.handleSubmit}

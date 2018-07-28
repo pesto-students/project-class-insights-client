@@ -36,7 +36,7 @@ const generateParams = ({
 
 const sendForm = async (formData) => {
   const requestParams = generateParams(formData);
-  const result = await fetch(`${BACKEND_URL}/submitform`, requestParams);
+  const result = await fetch(`${BACKEND_URL}/users/submitform`, requestParams);
   await getResponse(result);
 };
 

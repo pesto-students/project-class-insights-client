@@ -43,14 +43,14 @@ class StudentRegisterPage extends React.Component {
   async handleSubmit(formData) {
     const { register } = this.props;
     const response = await register(formData);
-    if (response !== true) {
+    if (!response.success) {
       this.setState({
         registerFailure: response,
         registerSuccess: '',
       });
     } else {
       this.setState({
-        registerSuccess: 'Registration Successful, Please check your email for confirmation link',
+        registerSuccess: response.success,
         registerFailure: '',
       });
     }

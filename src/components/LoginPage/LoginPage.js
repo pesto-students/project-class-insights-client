@@ -36,9 +36,9 @@ class LoginPage extends React.Component {
 
   async handleSubmit(formData) {
     const { login } = this.props;
-    const loginReponse = await login(formData);
-    if (loginReponse !== true) {
-      this.setState({ loginFailure: loginReponse });
+    const loginResponse = await login(formData);
+    if (loginResponse !== true) {
+      this.setState({ loginFailure: loginResponse });
     }
   }
 

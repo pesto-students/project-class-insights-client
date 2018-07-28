@@ -4,6 +4,7 @@ import { history } from '../helpers/history';
 import { alertActions } from './alert.actions';
 import { decodeAuthToken } from '../helpers/decodeAuthToken';
 import { SESSION_STORAGE_KEY } from '../constants/auth.constant';
+import { routes } from '../constants/routes';
 
 const login = (username, password) => {
   const request = (user) => {
@@ -37,9 +38,9 @@ const login = (username, password) => {
       const { token } = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_KEY));
       const userData = decodeAuthToken(token);
       if (userData.isInstructor === true) {
-        history.push('/dashboard');
+        history.push(routes.Dashboard);
       } else {
-        history.push('/submitFeedback');
+        history.push(routes.StudentHome);
       }
       return true;
     } catch (error) {
@@ -82,10 +83,10 @@ const register = (email, password) => {
   return async (dispatch) => {
     dispatch(request(email));
     try {
-      const user = await userService.register(email, password);
-      dispatch(success(user));
+      const userResponse = await userService.register(email, password);
+      dispatch(success(userResponse));
       dispatch(alertActions.success('Registration Done'));
-      return true;
+      return userResponse;
     } catch (error) {
       dispatch(failure(error.toString()));
       dispatch(alertActions.error(error.toString()));

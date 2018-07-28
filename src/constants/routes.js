@@ -10,4 +10,7 @@ export const routes = {
   BatchesDetailsPage: '/batchdetails',
   SubmitFeedback: '/submitFeedback',
   StudentSignup: '/registerStudent',
+  StudentHome: '/studentHome',
+  AddBatch: '/addBatch',
+  AddStudent: '/addStudent',
 };

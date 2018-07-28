@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: 0 */
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import {
@@ -9,8 +10,14 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
+  Form,
+  Input,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+
+import { FRONTEND_URL, BACKEND_URL } from '../../constants/auth.constant';
+
+import { defaultOptions } from '../../helpers/auth-header';
 
 class BatchesPage extends Component {
   constructor(props) {
@@ -21,11 +28,31 @@ class BatchesPage extends Component {
         batchID: '',
         status: null,
         students: null,
-        creationDate: '',
+        startDate: '',
       },
+      data: [],
     };
     this.manageBatch = this.manageBatch.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+  }
+
+  async componentWillMount() {
+    const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
+    const response = await fetch(`${BACKEND_URL}/users/batches`, reqParams);
+    const batchData = await response.text();
+    const rawData = JSON.parse(batchData).Batches;
+    const mapped = rawData.map((val) => {
+      const remappedValues = {
+        batchID: val.batchId,
+        status: val.status ? 1 : 0,
+        students: val.studentCount,
+        startDate: (new Date(val.from)).toISOString().split('T')[0],
+        endDate: (new Date(val.to)).toISOString().split('T')[0],
+        details: `${FRONTEND_URL}/batchdetails?batchId=${val._id}&batchName=${val.batchId}`,
+      };
+      return remappedValues;
+    });
+    this.setState({ data: mapped });
   }
 
   toggleModal() {
@@ -42,39 +69,7 @@ class BatchesPage extends Component {
   }
 
   render() {
-    const data = [
-      {
-        batchID: 'Sep-Dec-01',
-        status: 1,
-        students: 34,
-        creationDate: '2018-07-01',
-      },
-      {
-        batchID: 'Jun-Sep-01',
-        status: 0,
-        students: 14,
-        creationDate: '2018-05-11',
-      },
-      {
-        batchID: 'Sep-Dec-02',
-        status: 1,
-        students: 24,
-        creationDate: '2018-06-21',
-      },
-      {
-        batchID: 'Sep-Dec-01',
-        status: 0,
-        students: 16,
-        creationDate: '2018-07-01',
-      },
-      {
-        batchID: 'Jan-Apr-01',
-        status: 0,
-        students: 36,
-        creationDate: '2018-10-23',
-      },
-    ];
-
+    const { data } = this.state;
     const columns = [
       {
         Header: 'Batch ID',
@@ -103,8 +98,12 @@ class BatchesPage extends Component {
         accessor: 'students',
       },
       {
-        Header: 'Created On',
-        accessor: 'creationDate',
+        Header: 'Start Date',
+        accessor: 'startDate',
+      },
+      {
+        Header: 'End Date',
+        accessor: 'endDate',
       },
       {
         Header: () => (
@@ -120,6 +119,22 @@ class BatchesPage extends Component {
               className="mx-auto"
             >
               Manage
+            </Button>
+          </Row>
+        ),
+      },
+      {
+        Header: 'Details',
+        accessor: 'details',
+        Cell: row => (
+          <Row className="align-items-center">
+            <Button
+              type="button"
+              href={row.value}
+              size="sm"
+              className="mx-auto"
+            >
+                Batch Details
             </Button>
           </Row>
         ),
@@ -155,6 +170,14 @@ class BatchesPage extends Component {
           className={className}
           batchDetails={selectedBatch}
         />
+        <br />
+        <Button
+          type="button"
+          className="btn btn-primary btn-block"
+          href="/add"
+        >
+          Add Batch
+        </Button>
       </Container>
     );
   }
@@ -175,47 +198,65 @@ const BatchesModal = (props) => {
   } = props;
   return (
     <Modal isOpen={isOpen} toggle={toggleModalFunction} className={className}>
-      <ModalHeader toggle={toggleModalFunction}>
-        <Row>
-          <Col>
-            Batch Information
-          </Col>
-        </Row>
-      </ModalHeader>
-      <ModalBody>
-        <Row>
-          <Col>
-            {'Batch Name - '}
-            {batchDetails.batchID}
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {'status - '}
-            {batchDetails.status === 0 ? 'Inactive' : 'Active' }
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {'Students - '}
-            {batchDetails.students}
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {'creationDate - '}
-            {batchDetails.creationDate}
-          </Col>
-        </Row>
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={toggleModalFunction}>
-          Save changes
-        </Button>
-        <Button color="secondary" onClick={toggleModalFunction}>
-          Cancel
-        </Button>
-      </ModalFooter>
+      <Form>
+        <ModalHeader toggle={toggleModalFunction}>
+          <Row>
+            <Col>
+              Batch Information
+            </Col>
+          </Row>
+        </ModalHeader>
+        <ModalBody>
+          <Row>
+            <Col>
+              {'Batch Name'}
+            </Col>
+            <Col>
+              <Input type="text" defaultValue={batchDetails.batchID} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {'Status'}
+            </Col>
+            <Col>
+              <Input type="text" defaultValue={batchDetails.status} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {'Students'}
+            </Col>
+            <Col>
+              <Input type="text" defaultValue={batchDetails.students} disabled />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {'Start Date'}
+            </Col>
+            <Col>
+              <Input type="date" defaultValue={batchDetails.startDate} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {'End Date'}
+            </Col>
+            <Col>
+              <Input type="date" defaultValue={batchDetails.endDate} />
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" type="Submit" onClick={toggleModalFunction}>
+            Save changes
+          </Button>
+          <Button color="secondary" onClick={toggleModalFunction}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   );
 };
@@ -231,6 +272,7 @@ BatchesPage.propTypes = {
 BatchesModal.defaultProps = {
   isOpen: false,
   toggleModalFunction: null,
+  UpdateBatchFunction: null,
   className: '',
   batchDetails: {},
 };
@@ -243,7 +285,7 @@ BatchesModal.propTypes = {
     batchID: PropTypes.string,
     status: PropTypes.number,
     students: PropTypes.number,
-    creationDate: PropTypes.string,
+    startDate: PropTypes.string,
   }),
 };
 

@@ -1,3 +1,5 @@
+import { BACKEND_URL } from '../constants/auth.constant';
+import { defaultOptions } from '../helpers/auth-header';
 
 const sendStudentFeedback = async (formData, requestedForm) => {
   const myform = JSON.parse(JSON.stringify(requestedForm));
@@ -9,12 +11,12 @@ const sendStudentFeedback = async (formData, requestedForm) => {
   myform.comments = formData.comment;
   const reqParams = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...defaultOptions },
     body: JSON.stringify({
       ...myform,
     }),
   };
-  const result = await fetch('https://classinsight-new.herokuapp.com/submitfeedback', reqParams);
+  const result = await fetch(`${BACKEND_URL}/users/submitfeedback`, reqParams);
   const response = await result.json();
   return response;
 };

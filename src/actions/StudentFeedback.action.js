@@ -1,9 +1,9 @@
-import { StudentFeedbackConstants, TEMP_FORM_ID } from '../constants';
+import { StudentFeedbackConstants } from '../constants';
 import { formServices } from '../services';
 import { alertActions } from './alert.actions';
 
 
-const getData = () => {
+const getData = (formID) => {
   const request = () => {
     return {
       type: StudentFeedbackConstants.FORM_REQUEST,
@@ -26,7 +26,7 @@ const getData = () => {
   return async (dispatch) => {
     dispatch(request());
     try {
-      const requestedForm = await formServices.getFormById(TEMP_FORM_ID);
+      const requestedForm = await formServices.getFormById(formID);
       dispatch(success(requestedForm));
       dispatch(alertActions.success('Got the form'));
     } catch (error) {

@@ -1,65 +1,66 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 import {
   Container,
   Row,
   Col,
   Card,
   CardBody,
+  Button,
 } from 'reactstrap';
 import ReactTable from 'react-table';
-
 import PropTypes from 'prop-types';
+
+import { BACKEND_URL } from '../../constants/auth.constant';
+import { defaultOptions } from '../../helpers/auth-header';
 
 class BatchesDetailsPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      batchDetails: {
+        batchId: '',
+        batchStartDate: '',
+        batchStatus: '',
+        totalStudents: null,
+      },
+      students: [],
+    };
+  }
+
+  async componentWillMount() {
+    const { location } = this.props;
+    const { search } = location;
+    const { batchId, batchName } = queryString.parse(search);
+    const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
+    const batchResponse = await fetch(`${BACKEND_URL}/users/batches?batchId=${batchName}`, reqParams);
+    const batchData = await batchResponse.text();
+    const rawData = JSON.parse(batchData).Batches[0];
+    this.setState({
+      batchDetails: {
+        batchId: rawData.batchId,
+        batchStartDate: (new Date(rawData.from)).toISOString().split('T')[0],
+        batchStatus: rawData.status ? 'Active' : 'Inactive',
+        totalStudents: rawData.studentCount,
+      },
+    });
+
+    const studentResponse = await fetch(`${BACKEND_URL}/students/${batchId}`);
+    const rawStudentData = await studentResponse.json();
+    const remappedStudents = rawStudentData.map((val, index) => {
+      const remap = {
+        _id: index,
+        name: val.name ? val.name : 'Student yet to register',
+        email: val.email,
+      };
+      return remap;
+    });
+    this.setState({ students: remappedStudents });
   }
 
   render() {
-    const students = [
-      {
-        _id: 1,
-        name: 'John 1',
-        email: 'john1@email.com',
-      },
-      {
-        _id: 2,
-        name: 'John 2',
-        email: 'john2@email.com',
-      },
-      {
-        _id: 3,
-        name: 'John 3',
-        email: 'john3@email.com',
-      },
-      {
-        _id: 4,
-        name: 'John 4',
-        email: 'john4@email.com',
-      },
-      {
-        _id: 5,
-        name: 'John 5',
-        email: 'john5@email.com',
-      },
-      {
-        _id: 6,
-        name: 'John 6',
-        email: 'john6@email.com',
-      },
-      {
-        _id: 7,
-        name: 'John 7',
-        email: 'john7@email.com',
-      },
-    ];
-    const batchDetails = {
-      batchId: 'Batch 101',
-      batchStartDate: '2018-01-01',
-      batchStatus: 1,
-      totalStudents: 23,
-    };
+    const { students } = this.state;
+    const { batchDetails } = this.state;
     const {
       batchId,
       batchStartDate,
@@ -115,6 +116,16 @@ class BatchesDetailsPage extends Component {
             />
           </Col>
         </Row>
+        <br />
+        <Button
+          type="button"
+          className="btn btn-primary btn-block"
+          href={`/addStudent?batchID=${batchId}`}
+        >
+          Add Student
+        </Button>
+        <br />
+        <br />
       </Container>
     );
   }

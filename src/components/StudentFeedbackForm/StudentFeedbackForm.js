@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
 import StarRatingComponent from 'react-star-rating-component';
+import queryString from 'query-string';
 
 import {
   Container,
@@ -28,7 +29,10 @@ class StudentFeedbackForm extends React.Component {
 
   async componentWillMount() {
     const { getData } = this.props;
-    await getData();
+    const { location } = this.props;
+    const { search } = location;
+    const { formID } = queryString.parse(search);
+    await getData(formID);
     const { requestedForm } = this.props;
     this.setState({
       subtopicsArray: requestedForm.subtopics.map(st => st.subtopicName),
@@ -42,7 +46,7 @@ class StudentFeedbackForm extends React.Component {
     const { requestedForm } = this.props;
     const response = await studentFeedbackServices.sendStudentFeedback(formData, requestedForm);
     if (response.success) {
-      this.setState({ response: 'submitted' });
+      this.setState({ response: 'Feedback submitted successfully' });
     }
   }
 
@@ -64,7 +68,17 @@ class StudentFeedbackForm extends React.Component {
           </Col>
         </Row>
         <Row>
-          {response}
+          <Col
+            sm="12"
+            md="12"
+            lg="12"
+            xl="12"
+            className="mx-auto text-center"
+          >
+            <h4 className="form-text text-success">
+              {response}
+            </h4>
+          </Col>
         </Row>
         <Row>
           <Col className="text-center">

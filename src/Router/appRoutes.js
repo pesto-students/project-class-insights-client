@@ -13,6 +13,9 @@ import BatchesPage from '../components/BatchesPage';
 import BatchesDetailsPage from '../components/BatchesDetailsPage';
 import StudentFeedbackForm from '../components/StudentFeedbackForm';
 import StudentRegisterPage from '../components/StudentRegisterPage';
+import StudentHomePage from '../components/StudentHomePage';
+import AddBatchPage from '../components/AddBatchPage';
+import AddStudentPage from '../components/AddStudentPage';
 
 const appRoutes = (
   <Router history={history}>
@@ -27,6 +30,9 @@ const appRoutes = (
         <Route path={routes.BatchesDetailsPage} component={BatchesDetailsPage} />
         <Route path={routes.SubmitFeedback} component={StudentFeedbackForm} />
         <Route path={routes.StudentSignup} component={StudentRegisterPage} />
+        <Route path={routes.StudentHome} component={StudentHomePage} />
+        <Route path={routes.AddBatch} component={AddBatchPage} />
+        <Route path={routes.AddStudent} component={AddStudentPage} />
         <Route component={LoginPage} />
       </Switch>
     </div>

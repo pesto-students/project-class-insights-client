@@ -28,19 +28,18 @@ class FeedBackForm extends React.Component {
   }
 
   async handleSubmit(formData) {
-    await formService.sendForm(formData);
-    this.setState({ response: 'submitted' });
+    try {
+      await formService.sendForm(formData);
+      this.setState({ response: 'submitted successfully' });
+    } catch (error) {
+      this.setState({ response: 'submission failed' });
+    }
   }
 
   render() {
     const { response } = this.state;
     return (
       <Container>
-        <Row className="align-items-center h-100">
-          <Col>
-            {response}
-          </Col>
-        </Row>
         <Row className="align-items-center h-100">
           <Col
             sm="6"
@@ -54,6 +53,9 @@ class FeedBackForm extends React.Component {
                 <h2 className="text-center">
                   Feedback Form Creation
                 </h2>
+                <h4 className="form-text text-success text-center">
+                  {response}
+                </h4>
                 <Form
                   onSubmit={this.handleSubmit}
                   mutators={{ ...arrayMutators }}
@@ -163,7 +165,7 @@ class FeedBackForm extends React.Component {
                         </Button>
                       </FormGroup>
                       <FormGroup>
-                        <Field name="formDate" validate={validations.required}>
+                        <Field name="date" validate={validations.required}>
                           {({ input, meta }) => (
                             <div>
                               <Label for="creationDate">

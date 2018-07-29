@@ -278,3 +278,7 @@ h6 {
   background: transparent;
   color: #252525;
 }
+
+button.dropdown-item {
+  cursor: pointer;
+}

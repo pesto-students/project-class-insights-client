@@ -15,3 +15,7 @@
 .navbar-light .navbar-brand {
   color: white;
 }
+
+.navbar-dark .navbar-nav .dropdown-item .nav-link {
+  color: #212529;
+}

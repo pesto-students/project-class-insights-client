@@ -282,3 +282,8 @@ h6 {
 button.dropdown-item {
   cursor: pointer;
 }
+
+a.button-anchor {
+  -webkit-appearance: inherit;
+  appearance: inherit;
+}

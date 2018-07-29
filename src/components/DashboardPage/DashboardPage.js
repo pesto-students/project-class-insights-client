@@ -6,43 +6,49 @@ import {
 } from 'reactstrap';
 
 import ClassSummaryCard from '../ClassSummaryCard';
+import { defaultOptions } from '../../helpers/auth-header';
+import { BACKEND_URL } from '../../constants/auth.constant';
 
-const allLastClassesSummary = [
-  {
-    className: 'ES6',
-    studentFeedbackRatio: '18/23',
-    highestRatedTopic: 'let vs const',
-    highestRatedTopicApproval: '96%',
-    lowestRatedTopic: 'Generators',
-    lowestRatedTopicApproval: '66%',
-    revisionRequests: 5,
-  },
-  {
-    className: 'Browsers',
-    studentFeedbackRatio: '18/23',
-    highestRatedTopic: 'DOM Tree',
-    highestRatedTopicApproval: '88%',
-    lowestRatedTopic: 'HTML Parser',
-    lowestRatedTopicApproval: '53%',
-    revisionRequests: 2,
-  },
-  {
-    className: 'React',
-    studentFeedbackRatio: '18/23',
-    highestRatedTopic: 'State',
-    highestRatedTopicApproval: '76%',
-    lowestRatedTopic: 'React Life Cycle',
-    lowestRatedTopicApproval: '73%',
-    revisionRequests: 0,
-  },
-];
-
-const classSummaryList = allLastClassesSummary.map((lastClass) => {
-  return <ClassSummaryCard classData={lastClass} />;
-});
 
 class DashboardPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      classSummaryList: null,
+    };
+  }
+
+  async componentWillMount() {
+    const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
+    const result = await fetch(`${BACKEND_URL}/users/test`, reqParams);
+    const rawData = await result.json();
+    const remapped = rawData.map((val) => {
+      const keysSorted = Object.keys(val.averageRatings).sort((a, b) => {
+        return val.averageRatings[a] - val.averageRatings[b];
+      });
+
+      const remappedValue = {
+        className: val.subject,
+        studentFeedbackRatio: val.feedbackCounts,
+        highestRatedTopic: keysSorted[keysSorted.length - 1],
+        highestRatedTopicApproval: val.averageRatings[keysSorted[keysSorted.length - 1]],
+        lowestRatedTopic: keysSorted[0],
+        lowestRatedTopicApproval: val.averageRatings[keysSorted[0]],
+        revisionRequests: 0,
+      };
+      return remappedValue;
+    });
+
+    const allLastClassesSummary = remapped;
+
+    const SummaryList = allLastClassesSummary.map((lastClass) => {
+      return <ClassSummaryCard classData={lastClass} />;
+    });
+    this.setState({ classSummaryList: SummaryList });
+  }
+
   render() {
+    const { classSummaryList } = this.state;
     const dashBoardStatusMessage = 'Hey, your classes have 78% positive feedback';
     return (
       <Container>

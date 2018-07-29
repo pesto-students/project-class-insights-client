@@ -5,6 +5,7 @@ import { routes } from '../constants/routes';
 
 const logout = () => {
   sessionStorage.removeItem(SESSION_STORAGE_KEY);
+  window.location.reload();
 };
 
 
@@ -33,10 +34,10 @@ const login = async (users) => {
   }
   if (user.token) {
     sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(user));
+    window.location.reload();
   }
   return user;
 };
-
 
 const register = async (users) => {
   const requestParams = generateParams(users);
@@ -47,8 +48,26 @@ const register = async (users) => {
   }
   return user;
 };
+
+const isLoggedIn = () => {
+  if (sessionStorage.getItem(SESSION_STORAGE_KEY)) {
+    return true;
+  }
+  return false;
+};
+
+const isStudent = () => {
+  const userRole = 1; // get user role from somewhere
+  if (userRole === 0) {
+    return true;
+  }
+  return false;
+};
+
 export const userService = {
   login,
   logout,
   register,
+  isLoggedIn,
+  isStudent,
 };

@@ -6,10 +6,11 @@ import {
   Col,
   Card,
   CardBody,
-  Button,
+  NavLink,
 } from 'reactstrap';
 import ReactTable from 'react-table';
 import PropTypes from 'prop-types';
+import { NavLink as RRNavLink } from 'react-router-dom';
 
 import { BACKEND_URL } from '../../constants/auth.constant';
 import { defaultOptions } from '../../helpers/auth-header';
@@ -116,16 +117,17 @@ class BatchesDetailsPage extends Component {
             />
           </Col>
         </Row>
-        <br />
-        <Button
-          type="button"
-          className="btn btn-primary btn-block"
-          href={`/addStudent?batchID=${batchId}`}
-        >
-          Add Student
-        </Button>
-        <br />
-        <br />
+        <Row className="mt-3">
+          <Col>
+            <NavLink
+              tag={RRNavLink}
+              className="btn btn-primary btn-block"
+              to={`/addStudent?batchID=${batchId}`}
+            >
+              Add Student
+            </NavLink>
+          </Col>
+        </Row>
       </Container>
     );
   }

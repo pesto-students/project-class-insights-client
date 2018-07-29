@@ -7,6 +7,7 @@ module.exports = {
     'react-hot-loader/patch',
     './src/index.js',
   ],
+  devtool: 'source-map',
   module: {
     rules: [
       {

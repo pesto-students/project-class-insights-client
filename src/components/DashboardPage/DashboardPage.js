@@ -33,7 +33,7 @@ class DashboardPage extends React.Component {
     }));
 
     const remapped = rawData.map((val) => {
-      if (!val) {
+      if (val && val !== null && val !== undefined && val.averageRatings) {
         const keysSorted = Object.keys(val.averageRatings).sort((a, b) => {
           return val.averageRatings[a] - val.averageRatings[b];
         });
@@ -45,6 +45,7 @@ class DashboardPage extends React.Component {
           lowestRatedTopic: keysSorted[0],
           lowestRatedTopicApproval: val.averageRatings[keysSorted[0]],
           revisionRequests: 0,
+          fullData: val,
         };
         return remappedValue;
       }

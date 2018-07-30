@@ -56,7 +56,7 @@ class StudentRegisterPage extends React.Component {
       }));
     } else {
       this.setState(() => ({
-        registerSuccess: response.success,
+        registerSuccess: 'Registration Successful, Please check your email for confirmation Link',
         registerFailure: '',
         isLoading: false,
       }));

@@ -18,6 +18,8 @@ import { formService } from '../../services/sendForm';
 import { validations } from '../../helpers/validations';
 import FormError from '../FormError';
 import Loader from '../Loader';
+import { defaultOptions } from '../../helpers/auth-header';
+import { BACKEND_URL } from '../../constants/auth.constant';
 
 class FeedBackForm extends React.Component {
   constructor(props) {
@@ -25,8 +27,26 @@ class FeedBackForm extends React.Component {
     this.state = {
       response: '',
       isLoading: false,
+      batchNames: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  async componentWillMount() {
+    this.setState(() => ({
+      isLoading: true,
+    }));
+
+    const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
+    const response = await fetch(`${BACKEND_URL}/users/batches`, reqParams);
+    const batches = await response.json();
+    const rawData = batches.Batches;
+    const batchNames = rawData.map(val => val.batchId);
+    this.setState({ batchNames });
+
+    this.setState(() => ({
+      isLoading: false,
+    }));
   }
 
   async handleSubmit(formData) {
@@ -48,7 +68,12 @@ class FeedBackForm extends React.Component {
   }
 
   render() {
-    const { response, isLoading } = this.state;
+    const { response, isLoading, batchNames } = this.state;
+    const optionItems = batchNames.map(batchName => (
+      <option key={batchName}>
+        {batchName}
+      </option>
+    ));
 
     if (isLoading) {
       return (
@@ -209,11 +234,13 @@ class FeedBackForm extends React.Component {
                               </Label>
                               <Input
                                 {...input}
-                                type="text"
+                                type="select"
                                 name="batchId"
                                 id="batchId"
                                 className="form-control"
-                              />
+                              >
+                                { optionItems }
+                              </Input>
                               <FormError meta={meta} />
                             </div>
                           )}

@@ -1,9 +1,15 @@
 # Project Class Insights: Client Side
 
-**URL** 
-[WIP] Our live application link is below.
+[![Build Status](https://travis-ci.org/pesto-students/project-class-insights-client.svg?branch=master)](https://travis-ci.org/pesto-students/project-class-insights-client)
 
-http://clientreact1.herokuapp.com/
+**URL** 
+Check out the running instance of app here:
+
+http://classinsights-app.herokuapp.com
+
+Server Side Github Repo: 
+
+https://github.com/pesto-students/project-class-insights-server
 
 Description
 ===
@@ -29,6 +35,6 @@ WIP
 Team Members
 ---
 
-* Aditya Kumar Khare
-* Kundan Singh
-* Monis
+[![Kundan Vishen](https://github.com/kundanvishen.png?size=100)](https://github.com/kundanvishen) | [![Aditya Kumar Khare](https://github.com/adityad85.png?size=100)](https://github.com/adityad85) | [![Monis Ahmad](https://github.com/monisahmad.png?size=100)](https://github.com/monisahmad)
+---|---|---
+[Kundan Vishen](https://github.com/kundanvishen) | [Aditya Kumar Khare](https://github.com/adityad85) | [Monis Ahmad](https://github.com/monisahmad)

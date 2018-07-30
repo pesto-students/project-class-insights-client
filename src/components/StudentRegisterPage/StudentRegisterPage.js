@@ -23,6 +23,7 @@ import { SESSION_STORAGE_KEY } from '../../constants/auth.constant';
 import { validations } from '../../helpers/validations';
 
 import FormError from '../FormError';
+import Loader from '../Loader';
 
 class StudentRegisterPage extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class StudentRegisterPage extends React.Component {
     this.state = {
       registerFailure: '',
       registerSuccess: '',
+      isLoading: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -42,17 +44,22 @@ class StudentRegisterPage extends React.Component {
 
   async handleSubmit(formData) {
     const { register } = this.props;
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const response = await register(formData);
     if (!response.success) {
-      this.setState({
+      this.setState(() => ({
         registerFailure: response,
         registerSuccess: '',
-      });
+        isLoading: false,
+      }));
     } else {
-      this.setState({
+      this.setState(() => ({
         registerSuccess: response.success,
         registerFailure: '',
-      });
+        isLoading: false,
+      }));
     }
   }
 
@@ -62,7 +69,13 @@ class StudentRegisterPage extends React.Component {
     const { token } = queryString.parse(search);
     const { email } = decodeToken(token);
     const data = { email, isInstructor: false };
-    const { registerFailure, registerSuccess } = this.state;
+    const { registerFailure, registerSuccess, isLoading } = this.state;
+
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container className="h-100">
         <Row className="align-items-center h-100">

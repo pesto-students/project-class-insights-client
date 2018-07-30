@@ -10,19 +10,27 @@ import {
 // import PropTypes from 'prop-types';
 import { FRONTEND_URL, BACKEND_URL } from '../../constants/auth.constant';
 import { defaultOptions } from '../../helpers/auth-header';
+import Loader from '../Loader';
 
 class StudentHomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      isLoading: false,
     };
   }
 
   async componentWillMount() {
     const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const response = await fetch(`${BACKEND_URL}/users/getForm`, reqParams);
     const formData = await response.json();
+    this.setState(() => ({
+      isLoading: false,
+    }));
     const mapped = formData.map((val) => {
       const remappedValues = {
         batchId: val.batchId.batchId,
@@ -37,7 +45,7 @@ class StudentHomePage extends Component {
   }
 
   render() {
-    const { data } = this.state;
+    const { data, isLoading } = this.state;
     const columns = [
       {
         Header: 'Batch ID',
@@ -72,6 +80,12 @@ class StudentHomePage extends Component {
         ),
       },
     ];
+
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container>
         <Row className="align-items-center h-100">

@@ -20,11 +20,15 @@ import { SESSION_STORAGE_KEY } from '../../constants/auth.constant';
 import { validations } from '../../helpers/validations';
 
 import FormError from '../FormError';
+import Loader from '../Loader';
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loginFailure: '' };
+    this.state = {
+      loginFailure: '',
+      isLoading: false,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -35,15 +39,26 @@ class LoginPage extends React.Component {
   }
 
   async handleSubmit(formData) {
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const { login } = this.props;
     const loginResponse = await login(formData);
+    this.setState(() => ({
+      isLoading: false,
+    }));
     if (loginResponse !== true) {
       this.setState({ loginFailure: loginResponse });
     }
   }
 
   render() {
-    const { loginFailure } = this.state;
+    const { loginFailure, isLoading } = this.state;
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container className="h-100">
         <Row className="align-items-center h-100">

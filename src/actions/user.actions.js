@@ -3,7 +3,7 @@ import { userService } from '../services';
 import { history } from '../helpers/history';
 import { alertActions } from './alert.actions';
 import { decodeAuthToken } from '../helpers/decodeAuthToken';
-import { SESSION_STORAGE_KEY } from '../constants/auth.constant';
+import { SESSION_STORAGE_KEY, SESSION_USER_ROLE } from '../constants/auth.constant';
 import { routes } from '../constants/routes';
 
 const login = (username, password) => {
@@ -38,8 +38,10 @@ const login = (username, password) => {
       const { token } = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_KEY));
       const userData = decodeAuthToken(token);
       if (userData.isInstructor === true) {
+        sessionStorage.setItem(SESSION_USER_ROLE, 1);
         history.push(routes.Dashboard);
       } else {
+        sessionStorage.setItem(SESSION_USER_ROLE, 0);
         history.push(routes.StudentHome);
       }
       return true;

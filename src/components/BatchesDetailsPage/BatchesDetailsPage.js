@@ -14,6 +14,7 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 
 import { BACKEND_URL } from '../../constants/auth.constant';
 import { defaultOptions } from '../../helpers/auth-header';
+import Loader from '../Loader';
 
 class BatchesDetailsPage extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class BatchesDetailsPage extends Component {
         batchStartDate: '',
         batchStatus: '',
         totalStudents: null,
+        isLoading: false,
       },
       students: [],
     };
@@ -33,9 +35,15 @@ class BatchesDetailsPage extends Component {
     const { location } = this.props;
     const { search } = location;
     const { batchId, batchName } = queryString.parse(search);
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
     const batchResponse = await fetch(`${BACKEND_URL}/users/batches?batchId=${batchName}`, reqParams);
     const batchData = await batchResponse.text();
+    this.setState(() => ({
+      isLoading: false,
+    }));
     const rawData = JSON.parse(batchData).Batches[0];
     this.setState({
       batchDetails: {
@@ -45,7 +53,9 @@ class BatchesDetailsPage extends Component {
         totalStudents: rawData.studentCount,
       },
     });
-
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const studentResponse = await fetch(`${BACKEND_URL}/students/${batchId}`);
     const rawStudentData = await studentResponse.json();
     const remappedStudents = rawStudentData.map((val, index) => {
@@ -56,12 +66,14 @@ class BatchesDetailsPage extends Component {
       };
       return remap;
     });
-    this.setState({ students: remappedStudents });
+    this.setState(() => ({
+      isLoading: true,
+      students: remappedStudents,
+    }));
   }
 
   render() {
-    const { students } = this.state;
-    const { batchDetails } = this.state;
+    const { batchDetails, students, isLoading } = this.state;
     const {
       batchId,
       batchStartDate,
@@ -81,6 +93,11 @@ class BatchesDetailsPage extends Component {
       },
     ];
 
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container>
         <Row className="align-items-center h-100">

@@ -9,34 +9,46 @@ import ClassSummaryCard from '../ClassSummaryCard';
 import { defaultOptions } from '../../helpers/auth-header';
 import { BACKEND_URL } from '../../constants/auth.constant';
 
+import Loader from '../Loader';
 
 class DashboardPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       classSummaryList: null,
+      isLoading: false,
     };
   }
 
   async componentWillMount() {
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
     const result = await fetch(`${BACKEND_URL}/users/test`, reqParams);
     const rawData = await result.json();
-    const remapped = rawData.map((val) => {
-      const keysSorted = Object.keys(val.averageRatings).sort((a, b) => {
-        return val.averageRatings[a] - val.averageRatings[b];
-      });
 
-      const remappedValue = {
-        className: val.subject,
-        studentFeedbackRatio: val.feedbackCounts,
-        highestRatedTopic: keysSorted[keysSorted.length - 1],
-        highestRatedTopicApproval: val.averageRatings[keysSorted[keysSorted.length - 1]],
-        lowestRatedTopic: keysSorted[0],
-        lowestRatedTopicApproval: val.averageRatings[keysSorted[0]],
-        revisionRequests: 0,
-      };
-      return remappedValue;
+    this.setState(() => ({
+      isLoading: false,
+    }));
+
+    const remapped = rawData.map((val) => {
+      if (!val) {
+        const keysSorted = Object.keys(val.averageRatings).sort((a, b) => {
+          return val.averageRatings[a] - val.averageRatings[b];
+        });
+        const remappedValue = {
+          className: val.subject,
+          studentFeedbackRatio: val.feedbackCounts,
+          highestRatedTopic: keysSorted[keysSorted.length - 1],
+          highestRatedTopicApproval: val.averageRatings[keysSorted[keysSorted.length - 1]],
+          lowestRatedTopic: keysSorted[0],
+          lowestRatedTopicApproval: val.averageRatings[keysSorted[0]],
+          revisionRequests: 0,
+        };
+        return remappedValue;
+      }
+      return null;
     });
 
     const allLastClassesSummary = remapped;
@@ -44,12 +56,19 @@ class DashboardPage extends React.Component {
     const SummaryList = allLastClassesSummary.map((lastClass) => {
       return <ClassSummaryCard classData={lastClass} />;
     });
-    this.setState({ classSummaryList: SummaryList });
+    this.setState({
+      classSummaryList: SummaryList,
+    });
   }
 
   render() {
-    const { classSummaryList } = this.state;
+    const { classSummaryList, isLoading } = this.state;
     const dashBoardStatusMessage = 'Hey, your classes have 78% positive feedback';
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container>
         <Row>

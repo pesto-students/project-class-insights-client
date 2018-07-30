@@ -15,11 +15,13 @@ import { BACKEND_URL } from '../../constants/auth.constant';
 import { defaultOptions } from '../../helpers/auth-header';
 
 import BatchesModal from './modalComponent';
+import Loader from '../Loader';
 
 class BatchesPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       modal: false,
       selectedBatch: {
         batchID: '',
@@ -35,9 +37,15 @@ class BatchesPage extends Component {
   }
 
   async componentWillMount() {
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
     const response = await fetch(`${BACKEND_URL}/users/batches`, reqParams);
     const batchData = await response.text();
+    this.setState(() => ({
+      isLoading: false,
+    }));
     const rawData = JSON.parse(batchData).Batches;
     const mapped = rawData.map((val) => {
       const remappedValues = {
@@ -50,7 +58,9 @@ class BatchesPage extends Component {
       };
       return remappedValues;
     });
-    this.setState({ data: mapped });
+    this.setState(() => ({
+      data: mapped,
+    }));
   }
 
   toggleModal() {
@@ -140,8 +150,16 @@ class BatchesPage extends Component {
     const {
       modal,
       selectedBatch,
+      isLoading,
     } = this.state;
     const { className } = this.props;
+
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
+
     return (
       <Container>
         <Row className="align-items-center h-100">

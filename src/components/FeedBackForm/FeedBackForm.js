@@ -17,27 +17,44 @@ import {
 import { formService } from '../../services/sendForm';
 import { validations } from '../../helpers/validations';
 import FormError from '../FormError';
+import Loader from '../Loader';
 
 class FeedBackForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       response: '',
+      isLoading: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   async handleSubmit(formData) {
     try {
+      this.setState(() => ({
+        isLoading: true,
+      }));
       await formService.sendForm(formData);
-      this.setState({ response: 'submitted successfully' });
+      this.setState(() => ({
+        isLoading: false,
+        response: 'submitted successfully',
+      }));
     } catch (error) {
-      this.setState({ response: 'submission failed' });
+      this.setState(() => ({
+        isLoading: false,
+        response: 'submission failed',
+      }));
     }
   }
 
   render() {
-    const { response } = this.state;
+    const { response, isLoading } = this.state;
+
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container>
         <Row className="align-items-center h-100">

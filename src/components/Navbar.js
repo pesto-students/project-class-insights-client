@@ -72,12 +72,6 @@ class NavBar extends React.Component {
                 </NavLink>
               </NavItem>
 
-              <NavItem>
-                <NavLink activeClassName="active" tag={RRNavLink} to={routes.AddStudent}>
-                  Add Student
-                </NavLink>
-              </NavItem>
-
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Actions

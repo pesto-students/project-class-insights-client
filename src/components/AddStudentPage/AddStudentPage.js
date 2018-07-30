@@ -20,6 +20,7 @@ import { BACKEND_URL } from '../../constants/auth.constant';
 import { defaultOptions } from '../../helpers/auth-header';
 import { validations } from '../../helpers/validations';
 import FormError from '../FormError';
+import Loader from '../Loader';
 
 class AddStudentPage extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class AddStudentPage extends Component {
     this.state = {
       success: '',
       failure: '',
+      isLoading: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -39,8 +41,14 @@ class AddStudentPage extends Component {
         ...formData,
       }),
     };
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const response = await fetch(`${BACKEND_URL}/users/students`, reqParams);
     const result = await response.json();
+    this.setState(() => ({
+      isLoading: false,
+    }));
     if (result.success) {
       this.setState({ success: 'batch added successfully' });
     } else {
@@ -49,11 +57,17 @@ class AddStudentPage extends Component {
   }
 
   render() {
-    const { success, failure } = this.state;
+    const { success, failure, isLoading } = this.state;
     const { location } = this.props;
     const { search } = location;
     const { batchID } = queryString.parse(search);
     const data = { batchId: batchID };
+
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container>
         <Row className="align-items-center h-100">

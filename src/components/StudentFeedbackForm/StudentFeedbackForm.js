@@ -12,7 +12,7 @@ import {
   Label,
   Input,
 } from 'reactstrap';
-
+import Loader from '../Loader';
 import { studentFeedbackServices } from '../../services';
 import { validations } from '../../helpers/validations';
 import FormError from '../FormError';
@@ -32,8 +32,14 @@ class StudentFeedbackForm extends React.Component {
     const { location } = this.props;
     const { search } = location;
     const { formID } = queryString.parse(search);
+    this.setState(() => ({
+      isLoading: true,
+    }));
     await getData(formID);
     const { requestedForm } = this.props;
+    this.setState(() => ({
+      isLoading: false,
+    }));
     this.setState({
       subtopicsArray: requestedForm.subtopics.map(st => st.subtopicName),
     });
@@ -44,14 +50,31 @@ class StudentFeedbackForm extends React.Component {
 
   async handleSubmit(formData) {
     const { requestedForm } = this.props;
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const response = await studentFeedbackServices.sendStudentFeedback(formData, requestedForm);
     if (response.success) {
       this.setState({ response: 'Feedback submitted successfully' });
     }
+    this.setState(() => ({
+      isLoading: false,
+    }));
   }
 
   render() {
-    const { response, form, subtopicsArray } = this.state;
+    const {
+      response,
+      form,
+      subtopicsArray,
+      isLoading,
+    } = this.state;
+
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container>
         <Row>

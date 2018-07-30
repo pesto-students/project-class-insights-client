@@ -44,7 +44,7 @@ class DashboardPage extends React.Component {
           highestRatedTopicApproval: val.averageRatings[keysSorted[keysSorted.length - 1]],
           lowestRatedTopic: keysSorted[0],
           lowestRatedTopicApproval: val.averageRatings[keysSorted[0]],
-          revisionRequests: 0,
+          revisionRequests: val.revisitCount,
           fullData: val,
         };
         return remappedValue;

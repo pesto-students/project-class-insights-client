@@ -28,32 +28,32 @@
 .btn-primary,
 .btn-primary.disabled,
 .btn-primary.disabled:hover {
-  background: #5c4ac7;
-  border: 1px solid #5c4ac7;
+  background: #0174b2;
+  border: 1px solid #0174b2;
 }
 
 .btn-primary {
-  background: #5c4ac7;
-  border: 1px solid #5c4ac7;
+  background: #0174b2;
+  border: 1px solid #0174b2;
   box-shadow: 0 2px 2px 0 rgba(116, 96, 238, 0.14), 0 3px 1px -2px rgba(116, 96, 238, 0.2), 0 1px 5px 0 rgba(116, 96, 238, 0.12);
   transition: 0.2s ease-in;
 }
 
 .btn-primary:hover {
-  background: #5c4ac7;
-  box-shadow: 0 14px 26px -12px rgba(116, 96, 238, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(116, 96, 238, 0.2);
+  background: #0174b2;
+  box-shadow: 0 14px 26px -12px rgba(41, 128, 205, 0.54), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(116, 96, 238, 0.2);
 }
 
 .btn-primary:active {
-  background: #6352ce;
+  background: #0174b2;
   box-shadow: 0 14px 26px -12px rgba(116, 96, 238, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(116, 96, 238, 0.2);
 }
 
 .btn-primary:focus {
-  background: #6352ce;
+  background: #0174b2;
   box-shadow: 0 14px 26px -12px rgba(116, 96, 238, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(116, 96, 238, 0.2);
-  background-color: #6352ce;
-  border: 1px solid #6352ce;
+  background-color: #0174b2;
+  border: 1px solid #0174b2;
 }
 
 .btn-primary.disabled {
@@ -72,8 +72,8 @@
 
 .btn-primary.active:focus,
 .btn-primary.active:hover {
-  background-color: #6352ce;
-  border: 1px solid #6352ce;
+  background-color: #0174b2;
+  border: 1px solid #0174b2;
 }
 
 .btn-success {

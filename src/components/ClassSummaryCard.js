@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {
   Row, Col, Card, CardBody, Collapse, Button,
+  Modal, ModalHeader, ModalBody, ModalFooter,
 } from 'reactstrap';
-
-
-import { routes } from '../constants';
-
-import DashboardChart from './Charts/dashboard.chart';
 
 class ClassSummaryCard extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false };
+    this.state = {
+      collapse: false,
+      modal: false,
+    };
     this.classData = props.classData;
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   toggle() {
     this.setState(previousState => ({
       collapse: !previousState.collapse,
+    }));
+  }
+
+  toggleModal() {
+    this.setState(previousState => ({
+      modal: !previousState.modal,
     }));
   }
 
@@ -40,8 +45,23 @@ class ClassSummaryCard extends Component {
   */
 
   render() {
-    const { classData } = this;
-    const { collapse } = this.state;
+    const { classData, toggleModal } = this;
+    const { collapse, modal } = this.state;
+    const { className } = this.props;
+    let Comments;
+    if (classData && classData.fullData && classData.fullData.comments) {
+      Comments = classData.fullData.comments.map(comment => (
+        <Row>
+          <Col>
+            {' - '}
+            { comment }
+          </Col>
+        </Row>
+      ));
+    } else {
+      return null;
+    }
+
     return (
       <Card className="mx-auto">
         <Row>
@@ -123,15 +143,176 @@ class ClassSummaryCard extends Component {
                 xl="5"
               >
                 {/* Using a dummy image fow now, would be replaced with a chart later */}
-                <DashboardChart />
+                {/* <DashboardChart /> */}
               </Col>
             </Row>
           </CardBody>
           <Row>
             <Col className="text-center">
-              <NavLink to={routes.ClientFeedBackForm}>
-                Click here to see detailed insights.
-              </NavLink>
+              <Button color="primary" onClick={this.toggleModal} lectureDetails={classData}>
+                Click here to see detailed insights
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Modal
+                isOpen={modal}
+                toggle={toggleModal}
+                className={className}
+              >
+                <ModalHeader toggle={this.toggleModal}>
+                  Detailed Insights
+                </ModalHeader>
+                <ModalBody>
+                  {/* {JSON.stringify(classData.fullData)} */}
+
+                  <Row>
+                    <Col
+                      sm="8"
+                      md="8"
+                      lg="8"
+                      xl="8"
+                    >
+                      Lecture Name:
+                    </Col>
+                    <Col
+                      sm="4"
+                      md="4"
+                      lg="4"
+                      xl="4"
+                    >
+                      {classData.className}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col
+                      sm="8"
+                      md="8"
+                      lg="8"
+                      xl="8"
+                    >
+                      Received Feedbacks:
+                    </Col>
+                    <Col
+                      sm="4"
+                      md="4"
+                      lg="4"
+                      xl="4"
+                    >
+                      {classData.studentFeedbackRatio}
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col
+                      sm="8"
+                      md="8"
+                      lg="8"
+                      xl="8"
+                    >
+                      Highest Rated Topic:
+                    </Col>
+                    <Col
+                      sm="4"
+                      md="4"
+                      lg="4"
+                      xl="4"
+                    >
+                      {classData.highestRatedTopic}
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col
+                      sm="8"
+                      md="8"
+                      lg="8"
+                      xl="8"
+                    >
+                      Highest Rated Topic Approval:
+                    </Col>
+                    <Col
+                      sm="4"
+                      md="4"
+                      lg="4"
+                      xl="4"
+                    >
+                      {classData.highestRatedTopicApproval}
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col
+                      sm="8"
+                      md="8"
+                      lg="8"
+                      xl="8"
+                    >
+                      Lowest Rated Topic:
+                    </Col>
+                    <Col>
+                      {classData.lowestRatedTopic}
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col
+                      sm="8"
+                      md="8"
+                      lg="8"
+                      xl="8"
+                    >
+                      Lowest Rated Topic Approval:
+                    </Col>
+                    <Col>
+                      {classData.lowestRatedTopicApproval}
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col
+                      sm="8"
+                      md="8"
+                      lg="8"
+                      xl="8"
+                    >
+                      Revision Requests:
+                    </Col>
+                    <Col
+                      sm="4"
+                      md="4"
+                      lg="4"
+                      xl="4"
+                    >
+                      {classData.revisionRequests}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="text-center">
+                      <h5>
+                        Comments
+                      </h5>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      {Comments}
+                    </Col>
+                  </Row>
+
+
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={toggleModal}>
+                    OK
+                  </Button>
+                  {' '}
+                  <Button color="secondary" onClick={toggleModal}>
+                    Cancel
+                  </Button>
+                </ModalFooter>
+              </Modal>
             </Col>
           </Row>
         </Collapse>
@@ -141,6 +322,7 @@ class ClassSummaryCard extends Component {
 }
 
 ClassSummaryCard.defaultProps = {
+  className: null,
   classData: {
     className: null,
     studentFeedbackRatio: null,
@@ -153,6 +335,7 @@ ClassSummaryCard.defaultProps = {
 };
 
 ClassSummaryCard.propTypes = {
+  className: PropTypes.string,
   classData: PropTypes.exact({
     className: PropTypes.string,
     studentFeedbackRatio: PropTypes.string,
@@ -163,4 +346,5 @@ ClassSummaryCard.propTypes = {
     revisionRequests: PropTypes.number,
   }),
 };
+
 export default ClassSummaryCard;

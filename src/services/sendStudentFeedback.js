@@ -9,6 +9,7 @@ const sendStudentFeedback = async (formData, requestedForm) => {
   });
 
   myform.comments = formData.comment;
+  myform.revisit = formData.revisit;
   const reqParams = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...defaultOptions },

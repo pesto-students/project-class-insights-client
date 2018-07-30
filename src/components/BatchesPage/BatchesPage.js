@@ -186,15 +186,13 @@ class BatchesPage extends Component {
           className={className}
           batchDetails={selectedBatch}
         />
-        <br />
-        <Button
-          type="button"
-          className="btn btn-primary btn-block"
-          block
-          to="/add"
-        >
-          Add Batch
-        </Button>
+        <Row className="mt-3">
+          <Col>
+            <NavLink to="/addBatch" className=" mx-auto btn btn-primary btn-block">
+              Add Batch
+            </NavLink>
+          </Col>
+        </Row>
       </Container>
     );
   }

@@ -64,7 +64,7 @@ class DashboardPage extends React.Component {
 
   render() {
     const { classSummaryList, isLoading } = this.state;
-    const dashBoardStatusMessage = 'Hey, your classes have 78% positive feedback';
+    const dashBoardStatusMessage = 'Hey, your classes have mostly positive feedback';
     if (isLoading) {
       return (
         <Loader />

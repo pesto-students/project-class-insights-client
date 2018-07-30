@@ -50,7 +50,7 @@ class AddStudentPage extends Component {
       isLoading: false,
     }));
     if (result.success) {
-      this.setState({ success: 'batch added successfully' });
+      this.setState({ success: 'Student added successfully' });
     } else {
       this.setState({ failure: 'Failed to add student' });
     }
@@ -81,7 +81,7 @@ class AddStudentPage extends Component {
             <Card className="mt-5 justify-content-center">
               <CardBody className="mx-0">
                 <h2 className="text-center">
-                  Batch Creation
+                  Add Student To Batch
                 </h2>
                 <h4 className="form-text text-success text-center">
                   {success}

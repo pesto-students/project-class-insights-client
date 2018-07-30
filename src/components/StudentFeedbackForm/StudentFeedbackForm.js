@@ -11,6 +11,8 @@ import {
   FormGroup,
   Label,
   Input,
+  Card,
+  CardBody,
 } from 'reactstrap';
 import Loader from '../Loader';
 import { studentFeedbackServices } from '../../services';
@@ -125,163 +127,173 @@ class StudentFeedbackForm extends React.Component {
         </Row>
         <Row>
           <Col>
-            <Form
-              onSubmit={this.handleSubmit}
-              render={({
-                handleSubmit, submitting, pristine, invalid,
-              }) => (
-                <form name="feedbackSubmission" onSubmit={handleSubmit}>
-                  <h4>
-                    Subtopics:
-                  </h4>
-                  {
-                    subtopicsArray.map((subtopic, i) => {
-                      return (
-                        <FormGroup key={subtopic}>
-                          <Field
-                            name={`rating${i}`}
-                            initialValues={{ value: null }}
-                            validate={validations.required}
-                          >
-                            {({ input, meta }) => (
-                              <div>
+            <Card>
+              <CardBody>
+                <Form
+                  onSubmit={this.handleSubmit}
+                  render={({
+                    handleSubmit, submitting, pristine, invalid,
+                  }) => (
+                    <form name="feedbackSubmission" onSubmit={handleSubmit}>
+                      <h3 className="text-center my-2">
+                        Subtopics:
+                      </h3>
+                      {
+                        subtopicsArray.map((subtopic, i) => {
+                          return (
+                            <FormGroup key={subtopic}>
+                              <Field
+                                name={`rating${i}`}
+                                initialValues={{ value: null }}
+                                validate={validations.required}
+                              >
+                                {({ input, meta }) => (
+                                  <div>
 
-                                <Row>
+                                    <Row className="justify-content-center">
+                                      <Col
+                                        sm="3"
+                                        md="3"
+                                        lg="3"
+                                        xl="4"
+                                        xs="12"
+                                        className="text-center"
+                                      >
+                                        <Label for="rating">
+                                          {subtopic}
+                                        </Label>
+                                      </Col>
+                                      <Col
+                                        sm="3"
+                                        md="3"
+                                        lg="3"
+                                        xl="4"
+                                        xs="12"
+                                        className="text-center"
+                                      >
+                                        <StarRatingComponent
+                                          {...input}
+                                          name="rating"
+                                          id="rating"
+                                          onStarClick={input.onChange}
+                                          starCount={10}
+                                        />
+                                      </Col>
+                                    </Row>
+                                    <Row>
+                                      <Col>
+                                        <FormError meta={meta} />
+                                      </Col>
+                                    </Row>
+                                  </div>
+                                )}
+                              </Field>
+                            </FormGroup>
+                          );
+                        })
+                    }
+                      <Row>
+                        <Col>
+                          <FormGroup>
+                            <Field name="comment" validate={validations.required}>
+                              {({ input, meta }) => (
+                                <Row className="justify-content-center">
                                   <Col
                                     sm="3"
                                     md="3"
                                     lg="3"
-                                    xl="3"
+                                    xl="4"
+                                    className="text-center"
                                   >
-                                    <Label for="rating">
-                                      {subtopic}
+                                    <Label for="Comment">
+                                      Comment
                                     </Label>
                                   </Col>
-                                  <Col>
-                                    <StarRatingComponent
+                                  <Col
+                                    sm="3"
+                                    md="3"
+                                    lg="3"
+                                    xl="4"
+                                    className="text-center"
+                                  >
+                                    <Input
                                       {...input}
-                                      name="rating"
-                                      id="rating"
-                                      onStarClick={input.onChange}
-                                      starCount={10}
+                                      type="textarea"
+                                      name="comment"
+                                      id="comment"
+                                      className="form-control mt-2"
                                     />
                                   </Col>
+                                  <FormError meta={meta} />
                                 </Row>
-                                <Row>
-                                  <Col>
-                                    <FormError meta={meta} />
-                                  </Col>
-                                </Row>
-                              </div>
-                            )}
-                          </Field>
-                        </FormGroup>
-                      );
-                    })
-                }
-                  <Row>
-                    <Col>
-                      <FormGroup>
-                        <Field name="comment" validate={validations.required}>
-                          {({ input, meta }) => (
-                            <Row>
-                              <Col
-                                sm="3"
-                                md="3"
-                                lg="3"
-                                xl="3"
-                              >
-                                <Label for="Comment">
-                                  Comment
-                                </Label>
-                              </Col>
-                              <Col
-                                sm="3"
-                                md="3"
-                                lg="3"
-                                xl="3"
-                              >
-                                <Input
-                                  {...input}
-                                  type="textarea"
-                                  name="comment"
-                                  id="comment"
-                                  className="form-control mt-2"
-                                />
-                              </Col>
-                              <FormError meta={meta} />
-                            </Row>
-                          )}
-                        </Field>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <FormGroup>
-                        <Field type="checkbox" name="revisit">
-                          {({ input, meta }) => (
-                            <div>
-                              <Row>
-                                <Col
-                                  sm="3"
-                                  md="3"
-                                  lg="3"
-                                  xl="3"
-                                >
-                                  <Label for="revisit">
-                                    Revisit
-                                  </Label>
-                                </Col>
-                                <Col
-                                  sm="3"
-                                  md="3"
-                                  lg="3"
-                                  xl="3"
-                                >
-                                  <Input
-                                    {...input}
-                                    type="checkbox"
-                                    name="revisit"
-                                    id="revisit"
-                                  />
-                                </Col>
-                              </Row>
-                              <FormError meta={meta} />
-                            </div>
-                          )}
-                        </Field>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col
-                      md="4"
-                      lg="2"
-                      xl="2"
-                      className="mx-auto"
-                    >
-                      <Button
-                        type="submit"
-                        disabled={submitting || pristine || invalid}
-                        color="primary"
-                        block
-                      >
-                        Submit
-                      </Button>
-                    </Col>
-                    <Col
-                      md="4"
-                      lg="2"
-                      xl="2"
-                      className="mx-auto"
-                    >
-                      {' '}
-                    </Col>
-                  </Row>
-                </form>
-              )}
-            />
+                              )}
+                            </Field>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <FormGroup>
+                            <Field type="checkbox" name="revisit">
+                              {({ input, meta }) => (
+                                <div>
+                                  <Row className="justify-content-center">
+                                    <Col
+                                      sm="3"
+                                      md="3"
+                                      lg="3"
+                                      xl="4"
+                                      className="text-center"
+                                    >
+                                      <Label for="revisit">
+                                        Revisit
+                                      </Label>
+                                    </Col>
+                                    <Col
+                                      sm="3"
+                                      md="3"
+                                      lg="3"
+                                      xl="4"
+                                      className="text-center"
+                                    >
+                                      <Input
+                                        {...input}
+                                        type="checkbox"
+                                        name="revisit"
+                                        id="revisit"
+                                      />
+                                    </Col>
+                                  </Row>
+                                  <FormError meta={meta} />
+                                </div>
+                              )}
+                            </Field>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row className="justify-content-center">
+                        <Col
+                          md="4"
+                          lg="2"
+                          xl="4"
+                        >
+                          <FormGroup>
+                            <Button
+                              type="submit"
+                              disabled={submitting || pristine || invalid}
+                              color="primary"
+                              block
+                            >
+                              Submit
+                            </Button>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </form>
+                  )}
+                />
+              </CardBody>
+            </Card>
           </Col>
         </Row>
       </Container>

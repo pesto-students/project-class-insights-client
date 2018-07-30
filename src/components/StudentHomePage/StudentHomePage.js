@@ -5,10 +5,11 @@ import {
   Container,
   Row,
   Col,
-  Button,
+  NavLink,
 } from 'reactstrap';
-// import PropTypes from 'prop-types';
-import { FRONTEND_URL, BACKEND_URL } from '../../constants/auth.constant';
+import { NavLink as RRNavLink } from 'react-router-dom';
+
+import { BACKEND_URL } from '../../constants/auth.constant';
 import { defaultOptions } from '../../helpers/auth-header';
 import Loader from '../Loader';
 
@@ -37,7 +38,7 @@ class StudentHomePage extends Component {
         subject: val.subject,
         topic: val.topic,
         date: (new Date(val.creationDate)).toISOString().split('T')[0],
-        giveFeedback: `${FRONTEND_URL}/submitFeedback?formID=${val._id}`,
+        giveFeedback: `/submitFeedback?formID=${val._id}`,
       };
       return remappedValues;
     });
@@ -68,14 +69,9 @@ class StudentHomePage extends Component {
         accessor: 'giveFeedback',
         Cell: row => (
           <Row className="align-items-center">
-            <Button
-              type="button"
-              href={row.value}
-              size="sm"
-              className="mx-auto"
-            >
-                Give Feedback
-            </Button>
+            <NavLink className="mx-auto btn btn-sm btn-secondary" tag={RRNavLink} to={row.value}>
+              Give Feedback
+            </NavLink>
           </Row>
         ),
       },

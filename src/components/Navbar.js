@@ -47,7 +47,7 @@ class NavBar extends React.Component {
     if (loggedIn && !isStudent) {
       NavbarStructure = (
         <Navbar color="dark" dark expand="md">
-          <NavbarBrand href={routes.Home}>
+          <NavbarBrand tag={RRNavLink} to={routes.Home}>
             CLASS INSIGHTS
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
@@ -55,19 +55,24 @@ class NavBar extends React.Component {
             <Nav className="ml-auto" navbar>
 
               <NavItem>
-                <NavLink activeClassName="active" tag={RRNavLink} to={routes.ClientFeedBackForm}>
+                <NavLink tag={RRNavLink} to={routes.Dashboard}>
+                  Dashboard
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to={routes.ClientFeedBackForm}>
                   Feedback Form
                 </NavLink>
               </NavItem>
 
               <NavItem>
-                <NavLink activeClassName="active" tag={RRNavLink} to={routes.BatchesPage}>
+                <NavLink tag={RRNavLink} to={routes.BatchesPage}>
                   Batches
                 </NavLink>
               </NavItem>
 
               <NavItem>
-                <NavLink activeClassName="active" tag={RRNavLink} to={routes.AddBatch}>
+                <NavLink tag={RRNavLink} to={routes.AddBatch}>
                   Add Batch
                 </NavLink>
               </NavItem>
@@ -79,14 +84,14 @@ class NavBar extends React.Component {
                 <DropdownMenu right>
                   <DropdownItem>
                     <NavItem>
-                      <NavLink activeClassName="active" tag={RRNavLink} to={routes.ClientFeedBackForm}>
+                      <NavLink tag={RRNavLink} to={routes.ClientFeedBackForm}>
                       Feedbacks
                       </NavLink>
                     </NavItem>
                   </DropdownItem>
                   <DropdownItem>
                     <NavItem>
-                      <NavLink activeClassName="active" tag={RRNavLink} to={routes.BatchesPage}>
+                      <NavLink tag={RRNavLink} to={routes.BatchesPage}>
                         Batches
                       </NavLink>
                     </NavItem>
@@ -94,7 +99,7 @@ class NavBar extends React.Component {
                   <DropdownItem divider />
                   <DropdownItem>
                     <NavItem>
-                      <NavLink onClick={logout} activeClassName="active" tag={RRNavLink} to={routes.BackEndLogin}>
+                      <NavLink onClick={logout} tag={RRNavLink} to={routes.BackEndLogin}>
                         Logout
                       </NavLink>
                     </NavItem>

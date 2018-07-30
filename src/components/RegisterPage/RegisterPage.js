@@ -21,6 +21,8 @@ import { SESSION_STORAGE_KEY } from '../../constants/auth.constant';
 import { validations } from '../../helpers/validations';
 
 import FormError from '../FormError';
+import Loader from '../Loader';
+
 
 class RegisterPage extends React.Component {
   constructor(props) {
@@ -28,6 +30,7 @@ class RegisterPage extends React.Component {
     this.state = {
       registerFailure: '',
       registerSuccess: '',
+      isLoading: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -40,23 +43,35 @@ class RegisterPage extends React.Component {
 
   async handleSubmit(formData) {
     const { register } = this.props;
+
+    this.setState(() => ({
+      isLoading: true,
+    }));
     const response = await register(formData);
     if (!response.success) {
-      this.setState({
+      this.setState(() => ({
+        isLoading: false,
         registerFailure: response,
         registerSuccess: '',
-      });
+      }));
     } else {
-      this.setState({
+      this.setState(() => ({
+        isLoading: false,
         registerSuccess: response.success,
         registerFailure: '',
-      });
+      }));
     }
   }
 
   render() {
     const data = { isInstructor: true };
-    const { registerFailure, registerSuccess } = this.state;
+    const { registerFailure, registerSuccess, isLoading } = this.state;
+
+    if (isLoading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <Container className="h-100">
         <Row className="align-items-center h-100">

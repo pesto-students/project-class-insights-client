@@ -1,5 +1,5 @@
 
-import { BACKEND_URL, SESSION_STORAGE_KEY } from '../constants/auth.constant';
+import { BACKEND_URL, SESSION_STORAGE_KEY, SESSION_USER_ROLE } from '../constants/auth.constant';
 
 import { routes } from '../constants/routes';
 
@@ -57,7 +57,7 @@ const isLoggedIn = () => {
 };
 
 const isStudent = () => {
-  const userRole = 1; // get user role from somewhere
+  const userRole = parseInt(sessionStorage.getItem(SESSION_USER_ROLE), 10);
   if (userRole === 0) {
     return true;
   }

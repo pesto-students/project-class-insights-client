@@ -41,10 +41,10 @@ class BatchesDetailsPage extends Component {
     const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
     const batchResponse = await fetch(`${BACKEND_URL}/users/batches?batchId=${batchName}`, reqParams);
     const batchData = await batchResponse.text();
+    const rawData = JSON.parse(batchData).Batches[0];
     this.setState(() => ({
       isLoading: false,
     }));
-    const rawData = JSON.parse(batchData).Batches[0];
     this.setState({
       batchDetails: {
         batchId: rawData.batchId,
@@ -67,7 +67,7 @@ class BatchesDetailsPage extends Component {
       return remap;
     });
     this.setState(() => ({
-      isLoading: true,
+      isLoading: false,
       students: remappedStudents,
     }));
   }

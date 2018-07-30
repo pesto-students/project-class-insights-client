@@ -239,6 +239,9 @@ class FeedBackForm extends React.Component {
                                 id="batchId"
                                 className="form-control"
                               >
+                                <option value="">
+                                  ----
+                                </option>
                                 { optionItems }
                               </Input>
                               <FormError meta={meta} />

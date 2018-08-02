@@ -13,4 +13,6 @@ export const routes = {
   StudentHome: '/studentHome',
   AddBatch: '/addBatch',
   AddStudent: '/addStudent',
+  BackEndEditBatches: '/batches',
+  Authentication: '/users',
 };

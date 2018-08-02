@@ -83,12 +83,10 @@ class BatchesModal extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     const { form, oldBatchId } = this.state;
-    console.log(form);
-    delete form.details;
     form.oldBatchId = oldBatchId;
-    instructorService.editBatch(form);
     try {
-      this.setState({ response: 'Submitted successfully' });
+      const response = await instructorService.editBatch(form);
+      this.setState({ response: response.success });
     } catch (error) {
       this.setState({ response: 'Submission failed' });
     }

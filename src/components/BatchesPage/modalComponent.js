@@ -11,61 +11,82 @@ import {
   Input,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { instructorService } from '../../services/instructor.services';
 
 class BatchesModal extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       response: '',
+      oldBatchId: '',
+      form: {},
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBatchIDChange = this.handleBatchIDChange.bind(this);
     this.handleBatchStatusChange = this.handleBatchStatusChange.bind(this);
-    this.handleBatchStudentsChange = this.handleBatchStudentsChange.bind(this);
-    this.handleBatchStartDateChange = this.handleBatchStartDateChange.bind(this);
     this.handleBatchEndDateChange = this.handleBatchEndDateChange.bind(this);
   }
 
-  handleBatchIDChange(event) {
+  handleBatchIDChange(event, batchDetails) {
     event.persist();
-    this.setState(() => ({
-      batchID: event.target.value,
+    this.setState(prevState => ({
+      ...prevState,
+      oldBatchId: batchDetails.batchID,
+      form: {
+        ...batchDetails,
+        ...prevState.form,
+        batchID: event.target.value,
+      },
     }));
   }
 
-  handleBatchStatusChange(event) {
+  handleBatchStatusChange(event, batchDetails) {
     event.persist();
-    this.setState(() => ({
-      batchStatus: event.target.value,
+    this.setState(prevState => ({
+      ...prevState,
+      oldBatchId: batchDetails.batchID,
+      form: {
+        ...batchDetails,
+        ...prevState.form,
+        status: Number(event.target.value),
+      },
     }));
   }
 
-  handleBatchStudentsChange(event) {
+  handleBatchStartDateChange(event, batchDetails) {
     event.persist();
-    this.setState(() => ({
-      batchStudents: event.target.value,
+    this.setState(prevState => ({
+      ...prevState,
+      oldBatchId: batchDetails.batchID,
+      form: {
+        ...batchDetails,
+        ...prevState.form,
+        startDate: event.target.value,
+      },
     }));
   }
 
-  handleBatchStartDateChange(event) {
+  handleBatchEndDateChange(event, batchDetails) {
     event.persist();
-    this.setState(() => ({
-      batchStartDate: event.target.value,
-    }));
-  }
-
-  handleBatchEndDateChange(event) {
-    event.persist();
-    this.setState(() => ({
-      batchEndDate: event.target.value,
+    this.setState(prevState => ({
+      ...prevState,
+      oldBatchId: batchDetails.batchID,
+      form: {
+        ...batchDetails,
+        ...prevState.form,
+        endDate: event.target.value,
+      },
     }));
   }
 
   async handleSubmit(event) {
     event.preventDefault();
-
+    const { form, oldBatchId } = this.state;
+    form.oldBatchId = oldBatchId;
     try {
-      this.setState({ response: 'Submitted successfully' });
+      const response = await instructorService.editBatch(form);
+      this.setState({ response: response.success });
     } catch (error) {
       this.setState({ response: 'Submission failed' });
     }
@@ -81,7 +102,6 @@ class BatchesModal extends Component {
       className,
       batchDetails,
     } = this.props;
-
     return (
       <Modal
         isOpen={isOpen}
@@ -114,7 +134,7 @@ class BatchesModal extends Component {
                   name="batchID"
                   id="batchID"
                   // value={batchID}
-                  onChange={this.handleBatchIDChange}
+                  onChange={event => this.handleBatchIDChange(event, batchDetails)}
                   defaultValue={batchDetails.batchID}
                 />
               </Col>
@@ -127,7 +147,7 @@ class BatchesModal extends Component {
                 <Input
                   type="text"
                   name="batchStatus"
-                  onChange={this.handleBatchStatusChange}
+                  onChange={event => this.handleBatchStatusChange(event, batchDetails)}
                   defaultValue={batchDetails.status}
                 />
               </Col>
@@ -140,7 +160,6 @@ class BatchesModal extends Component {
                 <Input
                   type="text"
                   name="batchStudents"
-                  onChange={this.handleBatchStudentsChange}
                   defaultValue={batchDetails.students}
                   disabled
                 />
@@ -154,7 +173,7 @@ class BatchesModal extends Component {
                 <Input
                   type="date"
                   name="batchStartDate"
-                  onChange={this.handleBatchStartDateChange}
+                  onChange={event => this.handleBatchStartDateChange(event, batchDetails)}
                   defaultValue={batchDetails.startDate}
                 />
               </Col>
@@ -167,7 +186,7 @@ class BatchesModal extends Component {
                 <Input
                   type="date"
                   name="batchEndDate"
-                  onChange={this.handleBatchEndDateChange}
+                  onChange={event => this.handleBatchEndDateChange(event, batchDetails)}
                   defaultValue={batchDetails.endDate}
                 />
               </Col>

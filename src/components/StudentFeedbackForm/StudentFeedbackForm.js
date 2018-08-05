@@ -58,6 +58,8 @@ class StudentFeedbackForm extends React.Component {
     const response = await studentFeedbackServices.sendStudentFeedback(formData, requestedForm);
     if (response.success) {
       this.setState({ response: 'Feedback submitted successfully' });
+    } else if (response.error) {
+      this.setState({ response: response.error });
     }
     this.setState(() => ({
       isLoading: false,

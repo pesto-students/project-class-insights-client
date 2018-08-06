@@ -58,6 +58,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.2",
+    "puppeteer": "^1.6.2",
     "query-string": "^6.1.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

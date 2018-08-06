@@ -20,6 +20,7 @@ import FormError from '../FormError';
 import Loader from '../Loader';
 import { defaultOptions } from '../../helpers/auth-header';
 import { BACKEND_URL } from '../../constants/auth.constant';
+import { SELECTORS } from '../../constants/selectors.constants';
 
 class FeedBackForm extends React.Component {
   constructor(props) {
@@ -95,7 +96,7 @@ class FeedBackForm extends React.Component {
                 <h2 className="text-center">
                   Feedback Form Creation
                 </h2>
-                <h4 className="form-text text-success text-center">
+                <h4 className="form-text text-success text-center" data-test={SELECTORS.feedbackSuccess}>
                   {response}
                 </h4>
                 <Form
@@ -108,7 +109,7 @@ class FeedBackForm extends React.Component {
                     pristine,
                     invalid,
                   }) => (
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} data-test={SELECTORS.feedbackForm}>
                       <FormGroup>
                         <Field name="subject" validate={validations.required}>
                           {({ input, meta }) => (
@@ -182,6 +183,7 @@ class FeedBackForm extends React.Component {
                                   <Input
                                     {...input}
                                     type="text"
+                                    name={`subtopic${index}`}
                                     className="form-control"
                                     placeholder="Enter the sub topic"
                                   />
@@ -202,6 +204,7 @@ class FeedBackForm extends React.Component {
                           color="primary"
                           size="sm"
                           onClick={() => push('subtopicsArray', undefined)}
+                          data-test={SELECTORS.addSubtopicButton}
                         >
                           Add Subtopic
                         </Button>

@@ -16,6 +16,7 @@ import { defaultOptions } from '../../helpers/auth-header';
 
 import BatchesModal from './modalComponent';
 import Loader from '../Loader';
+import { SELECTORS } from '../../constants/selectors.constants';
 
 class BatchesPage extends Component {
   constructor(props) {
@@ -188,7 +189,7 @@ class BatchesPage extends Component {
         />
         <Row className="mt-3">
           <Col>
-            <NavLink to="/addBatch" className=" mx-auto btn btn-primary btn-block">
+            <NavLink to="/addBatch" className=" mx-auto btn btn-primary btn-block" data-test={SELECTORS.addBatchButton}>
               Add Batch
             </NavLink>
           </Col>

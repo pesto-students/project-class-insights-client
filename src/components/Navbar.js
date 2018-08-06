@@ -20,6 +20,7 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import { userActions } from '../actions';
 import { userService } from '../services';
 import { routes } from '../constants/routes';
+import { SELECTORS } from '../constants/selectors.constants';
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -60,13 +61,21 @@ class NavBar extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={RRNavLink} to={routes.ClientFeedBackForm}>
+                <NavLink
+                  tag={RRNavLink}
+                  to={routes.ClientFeedBackForm}
+                  data-test={SELECTORS.createFeedback}
+                >
                   Feedback Form
                 </NavLink>
               </NavItem>
 
               <NavItem>
-                <NavLink tag={RRNavLink} to={routes.BatchesPage}>
+                <NavLink
+                  tag={RRNavLink}
+                  to={routes.BatchesPage}
+                  data-test={SELECTORS.batchesButton}
+                >
                   Batches
                 </NavLink>
               </NavItem>
@@ -77,7 +86,7 @@ class NavBar extends React.Component {
                 </NavLink>
               </NavItem>
 
-              <UncontrolledDropdown nav inNavbar>
+              <UncontrolledDropdown nav inNavbar data-test={SELECTORS.navbarAction}>
                 <DropdownToggle nav caret>
                   Actions
                 </DropdownToggle>
@@ -99,7 +108,12 @@ class NavBar extends React.Component {
                   <DropdownItem divider />
                   <DropdownItem>
                     <NavItem>
-                      <NavLink onClick={logout} tag={RRNavLink} to={routes.BackEndLogin}>
+                      <NavLink
+                        onClick={logout}
+                        tag={RRNavLink}
+                        to={routes.BackEndLogin}
+                        data-test={SELECTORS.logout}
+                      >
                         Logout
                       </NavLink>
                     </NavItem>

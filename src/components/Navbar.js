@@ -20,7 +20,7 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import { userActions } from '../actions';
 import { userService } from '../services';
 import { routes } from '../constants/routes';
-import { SELECTORS } from '../constants/selectors.constants';
+import { dataTest } from '../constants/dataTest.constants';
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class NavBar extends React.Component {
                 <NavLink
                   tag={RRNavLink}
                   to={routes.ClientFeedBackForm}
-                  data-test={SELECTORS.createFeedback}
+                  data-test={dataTest.createFeedback}
                 >
                   Feedback Form
                 </NavLink>
@@ -74,7 +74,7 @@ class NavBar extends React.Component {
                 <NavLink
                   tag={RRNavLink}
                   to={routes.BatchesPage}
-                  data-test={SELECTORS.batchesButton}
+                  data-test={dataTest.batchesButton}
                 >
                   Batches
                 </NavLink>
@@ -86,7 +86,7 @@ class NavBar extends React.Component {
                 </NavLink>
               </NavItem>
 
-              <UncontrolledDropdown nav inNavbar data-test={SELECTORS.navbarAction}>
+              <UncontrolledDropdown nav inNavbar data-test={dataTest.navbarAction}>
                 <DropdownToggle nav caret>
                   Actions
                 </DropdownToggle>
@@ -112,7 +112,7 @@ class NavBar extends React.Component {
                         onClick={logout}
                         tag={RRNavLink}
                         to={routes.BackEndLogin}
-                        data-test={SELECTORS.logout}
+                        data-test={dataTest.logout}
                       >
                         Logout
                       </NavLink>

@@ -8,7 +8,7 @@ import {
 import ClassSummaryCard from '../ClassSummaryCard';
 import { defaultOptions } from '../../helpers/auth-header';
 import { BACKEND_URL } from '../../constants/auth.constant';
-import { SELECTORS } from '../../constants/selectors.constants';
+import { dataTest } from '../../constants/dataTest.constants';
 import Loader from '../Loader';
 
 class DashboardPage extends React.Component {
@@ -71,7 +71,7 @@ class DashboardPage extends React.Component {
       );
     }
     return (
-      <Container data-test={SELECTORS.dashboard}>
+      <Container data-test={dataTest.dashboard}>
         <Row>
           <Col
             sm="12"

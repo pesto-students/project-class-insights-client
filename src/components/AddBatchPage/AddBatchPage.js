@@ -14,7 +14,7 @@ import {
 } from 'reactstrap';
 
 import { BACKEND_URL } from '../../constants/auth.constant';
-import { SELECTORS } from '../../constants/selectors.constants';
+import { dataTest } from '../../constants/dataTest.constants';
 
 import { defaultOptions } from '../../helpers/auth-header';
 import { validations } from '../../helpers/validations';
@@ -76,7 +76,7 @@ class AddBatchPage extends Component {
                 <h2 className="text-center">
                   Batch Creation
                 </h2>
-                <h4 className="form-text text-success text-center" data-test={SELECTORS.addBatchSuccess}>
+                <h4 className="form-text text-success text-center" data-test={dataTest.addBatchSuccess}>
                   {success}
                 </h4>
                 <h4 className="form-text text-danger text-center">
@@ -90,7 +90,7 @@ class AddBatchPage extends Component {
                     pristine,
                     invalid,
                   }) => (
-                    <form onSubmit={handleSubmit} data-test={SELECTORS.addBatchForm}>
+                    <form onSubmit={handleSubmit} data-test={dataTest.addBatchForm}>
                       <FormGroup>
                         <Field name="batchId" validate={validations.required}>
                           {({ input, meta }) => (

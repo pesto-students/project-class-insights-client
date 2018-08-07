@@ -21,7 +21,7 @@ import { validations } from '../../helpers/validations';
 
 import FormError from '../FormError';
 import Loader from '../Loader';
-import { SELECTORS } from '../../constants/selectors.constants';
+import { dataTest } from '../../constants/dataTest.constants';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -86,7 +86,7 @@ class LoginPage extends React.Component {
                     pristine,
                     invalid,
                   }) => (
-                    <form onSubmit={handleSubmit} data-test={SELECTORS.loginForm}>
+                    <form onSubmit={handleSubmit} data-test={dataTest.loginForm}>
                       <FormGroup>
                         <Field name="email" validate={validations.composeValidators(validations.required, validations.emailFormat)}>
                           {({ input, meta }) => (
@@ -137,7 +137,7 @@ class LoginPage extends React.Component {
                           </Col>
                         </Row>
                         <Row>
-                          <Col className="text-center mt-3" data-test={SELECTORS.registerButton}>
+                          <Col className="text-center mt-3" data-test={dataTest.registerButton}>
                             <NavLink to={routes.ClientSignup}>
                               Click here to Register
                             </NavLink>

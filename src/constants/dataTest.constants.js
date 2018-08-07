@@ -1,0 +1,18 @@
+export const dataTest = {
+  loginForm: 'test-id-login-form',
+  dashboard: 'test-id-dashboard',
+  navbarAction: 'test-id-action-btn',
+  logout: 'test-id-logout-btn',
+  registerButton: 'test-id-register-btn',
+  registerForm: 'test-id-register-form',
+  registerFailure: 'test-id-register-failure',
+  registerSuccess: 'test-id-register-success',
+  createFeedback: 'test-id-createFeedback-btn',
+  feedbackForm: 'test-id-feedbackForm',
+  addSubtopicButton: 'test-id-addSubtopic',
+  feedbackSuccess: 'test-id-feedback-submit-success',
+  batchesButton: 'test-id-batches-btn',
+  addBatchButton: 'test-id-addBatch-btn',
+  addBatchForm: 'test-id-addBatch-form',
+  addBatchSuccess: 'test-id-addBatch-success',
+};

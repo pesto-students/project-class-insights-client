@@ -22,7 +22,7 @@ import { validations } from '../../helpers/validations';
 
 import FormError from '../FormError';
 import Loader from '../Loader';
-import { SELECTORS } from '../../constants/selectors.constants';
+import { dataTest } from '../../constants/dataTest.constants';
 
 
 class RegisterPage extends React.Component {
@@ -88,10 +88,10 @@ class RegisterPage extends React.Component {
                 <h2 className="text-center">
                   Register
                 </h2>
-                <small className="form-text text-danger" data-test={SELECTORS.registerFailure}>
+                <small className="form-text text-danger" data-test={dataTest.registerFailure}>
                   {registerFailure}
                 </small>
-                <small className="form-text text-success" data-test={SELECTORS.registerSuccess}>
+                <small className="form-text text-success" data-test={dataTest.registerSuccess}>
                   {registerSuccess}
                 </small>
                 <Form
@@ -103,7 +103,7 @@ class RegisterPage extends React.Component {
                     pristine,
                     invalid,
                   }) => (
-                    <form name="form" onSubmit={handleSubmit} data-test={SELECTORS.registerForm}>
+                    <form name="form" onSubmit={handleSubmit} data-test={dataTest.registerForm}>
 
                       <FormGroup>
                         <Field name="name" validate={validations.composeValidators(validations.required)}>

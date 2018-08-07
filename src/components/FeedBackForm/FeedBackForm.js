@@ -20,7 +20,7 @@ import FormError from '../FormError';
 import Loader from '../Loader';
 import { defaultOptions } from '../../helpers/auth-header';
 import { BACKEND_URL } from '../../constants/auth.constant';
-import { SELECTORS } from '../../constants/selectors.constants';
+import { dataTest } from '../../constants/dataTest.constants';
 
 class FeedBackForm extends React.Component {
   constructor(props) {
@@ -96,7 +96,7 @@ class FeedBackForm extends React.Component {
                 <h2 className="text-center">
                   Feedback Form Creation
                 </h2>
-                <h4 className="form-text text-success text-center" data-test={SELECTORS.feedbackSuccess}>
+                <h4 className="form-text text-success text-center" data-test={dataTest.feedbackSuccess}>
                   {response}
                 </h4>
                 <Form
@@ -109,7 +109,7 @@ class FeedBackForm extends React.Component {
                     pristine,
                     invalid,
                   }) => (
-                    <form onSubmit={handleSubmit} data-test={SELECTORS.feedbackForm}>
+                    <form onSubmit={handleSubmit} data-test={dataTest.feedbackForm}>
                       <FormGroup>
                         <Field name="subject" validate={validations.required}>
                           {({ input, meta }) => (
@@ -204,7 +204,7 @@ class FeedBackForm extends React.Component {
                           color="primary"
                           size="sm"
                           onClick={() => push('subtopicsArray', undefined)}
-                          data-test={SELECTORS.addSubtopicButton}
+                          data-test={dataTest.addSubtopicButton}
                         >
                           Add Subtopic
                         </Button>

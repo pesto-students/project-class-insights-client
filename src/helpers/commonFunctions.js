@@ -36,8 +36,27 @@ const addNewBatch = async (page, newBatch) => {
   await page.click(SELECTORS.submitButton);
 };
 
+const createNewFeedback = async (page, feedbackForm) => {
+  await page.waitForSelector(SELECTORS.feedbackForm);
+  await page.click(SELECTORS.subjectInput);
+  await page.type(SELECTORS.subjectInput, feedbackForm.subject);
+  await page.click(SELECTORS.topicInput);
+  await page.type(SELECTORS.topicInput, feedbackForm.topic);
+  await page.click(SELECTORS.subTopic);
+  await page.type(SELECTORS.subTopic, feedbackForm.subTopic);
+  await page.click(SELECTORS.addSubtopicButton);
+  await page.waitForSelector(SELECTORS.subtopic0);
+  await page.click(SELECTORS.subtopic0);
+  await page.type(SELECTORS.subtopic0, feedbackForm.subTopic0);
+  await page.click(SELECTORS.creationDate);
+  await page.type(SELECTORS.creationDate, feedbackForm.date);
+  await page.select(SELECTORS.batchId, feedbackForm.batchId);
+  await page.click(SELECTORS.submitButton);
+};
+
 export const commonFunctions = {
   login,
   register,
   addNewBatch,
+  createNewFeedback,
 };

@@ -19,6 +19,7 @@ export const SELECTORS = {
   subjectInput: 'input[name=subjectName]',
   topicInput: 'input[name=topicName]',
   subTopic: 'input[name=subtopic]',
+  subtopic0: 'input[name=subtopic0]',
   addSubtopicButton: `[data-test=${dataTest.addSubtopicButton}]`,
   creationDate: 'input[name=creationDate]',
   batchId: 'select[name=batchId]',

@@ -56,7 +56,8 @@ class BatchesDetailsPage extends Component {
     this.setState(() => ({
       isLoading: true,
     }));
-    const studentResponse = await fetch(`${BACKEND_URL}/students/${batchId}`);
+
+    const studentResponse = await fetch(`${BACKEND_URL}/users/students/${batchId}`, reqParams);
     const rawStudentData = await studentResponse.json();
     const remappedStudents = rawStudentData.map((val, index) => {
       const remap = {

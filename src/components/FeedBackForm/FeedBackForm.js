@@ -151,7 +151,7 @@ class FeedBackForm extends React.Component {
                         </Field>
                       </FormGroup>
                       <FormGroup>
-                        <Field name="subtopics">
+                        <Field name="subtopics" validate={validations.required}>
                           {({ input, meta }) => (
                             <div>
                               <Label className="mt-2">
@@ -173,7 +173,7 @@ class FeedBackForm extends React.Component {
                       <FieldArray name="subtopicsArray">
                         {
                           ({ fields }) => fields.map((name, index) => (
-                            <Field name={name} key={name}>
+                            <Field name={name} key={name} validate={validations.required}>
                               {({ input, meta }) => (
                                 <FormGroup>
                                   <Label className="mt-2">

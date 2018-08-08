@@ -15,4 +15,5 @@ export const routes = {
   AddStudent: '/addStudent',
   BackEndEditBatches: '/batches',
   Authentication: '/users',
+  FormById: '/getFormById',
 };

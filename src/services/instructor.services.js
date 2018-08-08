@@ -17,7 +17,6 @@ const getResponse = async (response) => {
     data = JSON.parse(text);
     return data;
   }
-  // const data = text && JSON.parse(text);
   return false;
 };
 

@@ -25,7 +25,7 @@ class DashboardPage extends React.Component {
       isLoading: true,
     }));
     const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
-    const result = await fetch(`${BACKEND_URL}/users/test`, reqParams);
+    const result = await fetch(`${BACKEND_URL}/users/dashboard`, reqParams);
     const rawData = await result.json();
 
     this.setState(() => ({

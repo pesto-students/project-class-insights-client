@@ -13,13 +13,12 @@ import {
   CardBody,
 } from 'reactstrap';
 
-import { BACKEND_URL } from '../../constants/auth.constant';
 import { dataTest } from '../../constants/dataTest.constants';
 
-import { defaultOptions } from '../../helpers/auth-header';
 import { validations } from '../../helpers/validations';
 import FormError from '../FormError';
 import Loader from '../Loader';
+import { batchService } from '../../services/batches.services';
 
 class AddBatchPage extends Component {
   constructor(props) {
@@ -33,18 +32,10 @@ class AddBatchPage extends Component {
   }
 
   async handleSubmit(formData) {
-    const reqParams = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...defaultOptions },
-      body: JSON.stringify({
-        ...formData,
-      }),
-    };
     this.setState(() => ({
       isLoading: true,
     }));
-    const response = await fetch(`${BACKEND_URL}/users/batches`, reqParams);
-    const result = await response.json();
+    const result = await batchService.addBatch(formData);
     this.setState(() => ({
       isLoading: false,
     }));

@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: 0 */
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import {
@@ -9,9 +8,8 @@ import {
 } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
 
-import { BACKEND_URL } from '../../constants/auth.constant';
-import { defaultOptions } from '../../helpers/auth-header';
 import Loader from '../Loader';
+import { studentService } from '../../services/student.services';
 
 class StudentHomePage extends Component {
   constructor(props) {
@@ -23,25 +21,13 @@ class StudentHomePage extends Component {
   }
 
   async componentWillMount() {
-    const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
     this.setState(() => ({
       isLoading: true,
     }));
-    const response = await fetch(`${BACKEND_URL}/users/getForm`, reqParams);
-    const formData = await response.json();
+    const mapped = await studentService.getForms();
     this.setState(() => ({
       isLoading: false,
     }));
-    const mapped = formData.map((val) => {
-      const remappedValues = {
-        batchId: val.batchId.batchId,
-        subject: val.subject,
-        topic: val.topic,
-        date: (new Date(val.creationDate)).toISOString().split('T')[0],
-        giveFeedback: `/submitFeedback?formID=${val._id}`,
-      };
-      return remappedValues;
-    });
     this.setState({ data: mapped });
   }
 

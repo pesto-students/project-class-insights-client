@@ -15,12 +15,10 @@ import {
   CardBody,
 } from 'reactstrap';
 
-import { BACKEND_URL } from '../../constants/auth.constant';
-
-import { defaultOptions } from '../../helpers/auth-header';
 import { validations } from '../../helpers/validations';
 import FormError from '../FormError';
 import Loader from '../Loader';
+import { studentService } from '../../services/student.services';
 
 class AddStudentPage extends Component {
   constructor(props) {
@@ -34,18 +32,10 @@ class AddStudentPage extends Component {
   }
 
   async handleSubmit(formData) {
-    const reqParams = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...defaultOptions },
-      body: JSON.stringify({
-        ...formData,
-      }),
-    };
     this.setState(() => ({
       isLoading: true,
     }));
-    const response = await fetch(`${BACKEND_URL}/users/students`, reqParams);
-    const result = await response.json();
+    const result = await studentService.addStudent(formData);
     this.setState(() => ({
       isLoading: false,
     }));

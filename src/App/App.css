@@ -291,12 +291,10 @@ a.button-anchor {
 
 /* Loader CSS */
 .loader {
-  display: block;
-  height: 20%;
-  width: 10%;
-  top: 48%;
-  position: fixed;
+  position: absolute;
+  top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .dot {

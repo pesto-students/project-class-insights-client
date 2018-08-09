@@ -12,9 +12,9 @@ import ReactTable from 'react-table';
 import PropTypes from 'prop-types';
 import { NavLink as RRNavLink } from 'react-router-dom';
 
-import { BACKEND_URL } from '../../constants/auth.constant';
-import { defaultOptions } from '../../helpers/auth-header';
 import Loader from '../Loader';
+import { batchService } from '../../services/batches.services';
+import { studentService } from '../../services/student.services';
 
 class BatchesDetailsPage extends Component {
   constructor(props) {
@@ -38,10 +38,7 @@ class BatchesDetailsPage extends Component {
     this.setState(() => ({
       isLoading: true,
     }));
-    const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
-    const batchResponse = await fetch(`${BACKEND_URL}/users/batches?batchId=${batchName}`, reqParams);
-    const batchData = await batchResponse.text();
-    const rawData = JSON.parse(batchData).Batches[0];
+    const rawData = await batchService.batchDetails(batchName);
     this.setState(() => ({
       isLoading: false,
     }));
@@ -57,16 +54,8 @@ class BatchesDetailsPage extends Component {
       isLoading: true,
     }));
 
-    const studentResponse = await fetch(`${BACKEND_URL}/users/students/${batchId}`, reqParams);
-    const rawStudentData = await studentResponse.json();
-    const remappedStudents = rawStudentData.map((val, index) => {
-      const remap = {
-        _id: index,
-        name: val.name ? val.name : 'Student yet to register',
-        email: val.email,
-      };
-      return remap;
-    });
+    const remappedStudents = await studentService.getStudents(batchId);
+
     this.setState(() => ({
       isLoading: false,
       students: remappedStudents,

@@ -6,10 +6,9 @@ import {
 } from 'reactstrap';
 
 import ClassSummaryCard from '../ClassSummaryCard';
-import { defaultOptions } from '../../helpers/auth-header';
-import { BACKEND_URL } from '../../constants/auth.constant';
 import { dataTest } from '../../constants/dataTest.constants';
 import Loader from '../Loader';
+import { dashboardService } from '../../services/dashboard.services';
 
 class DashboardPage extends React.Component {
   constructor(props) {
@@ -24,33 +23,13 @@ class DashboardPage extends React.Component {
     this.setState(() => ({
       isLoading: true,
     }));
-    const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
-    const result = await fetch(`${BACKEND_URL}/users/dashboard`, reqParams);
-    const rawData = await result.json();
+
+    const remapped = await dashboardService.dashboardData();
 
     this.setState(() => ({
       isLoading: false,
     }));
 
-    const remapped = rawData.map((val) => {
-      if (val && val !== null && val !== undefined && val.averageRatings) {
-        const keysSorted = Object.keys(val.averageRatings).sort((a, b) => {
-          return val.averageRatings[a] - val.averageRatings[b];
-        });
-        const remappedValue = {
-          className: val.subject,
-          studentFeedbackRatio: val.feedbackCounts,
-          highestRatedTopic: keysSorted[keysSorted.length - 1],
-          highestRatedTopicApproval: val.averageRatings[keysSorted[keysSorted.length - 1]],
-          lowestRatedTopic: keysSorted[0],
-          lowestRatedTopicApproval: val.averageRatings[keysSorted[0]],
-          revisionRequests: val.revisitCount,
-          fullData: val,
-        };
-        return remappedValue;
-      }
-      return null;
-    });
 
     const allLastClassesSummary = remapped;
 

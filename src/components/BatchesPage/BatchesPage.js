@@ -11,14 +11,12 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { BACKEND_URL } from '../../constants/auth.constant';
-
-import { defaultOptions } from '../../helpers/auth-header';
 
 import BatchesModal from './modalComponent';
 import Loader from '../Loader';
 import { dataTest } from '../../constants/dataTest.constants';
 import { instructorService } from '../../services/instructor.services';
+import { batchService } from '../../services/batches.services';
 
 class BatchesPage extends Component {
   constructor(props) {
@@ -49,24 +47,11 @@ class BatchesPage extends Component {
     this.setState(() => ({
       isLoading: true,
     }));
-    const reqParams = { headers: { 'Content-Type': 'application/json', ...defaultOptions } };
-    const response = await fetch(`${BACKEND_URL}/users/batches`, reqParams);
-    const batchData = await response.text();
+    const mapped = await batchService.getBatches();
     this.setState(() => ({
       isLoading: false,
     }));
-    const rawData = JSON.parse(batchData).Batches;
-    const mapped = rawData.map((val) => {
-      const remappedValues = {
-        batchID: val.batchId,
-        status: val.status ? 1 : 0,
-        students: val.studentCount,
-        startDate: (new Date(val.from)).toISOString().split('T')[0],
-        endDate: (new Date(val.to)).toISOString().split('T')[0],
-        details: `/batchdetails?batchId=${val._id}&batchName=${val.batchId}`,
-      };
-      return remappedValues;
-    });
+
     this.setState(() => ({
       data: mapped,
     }));

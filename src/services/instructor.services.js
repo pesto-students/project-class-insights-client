@@ -30,6 +30,28 @@ const editBatch = async (batchData) => {
   return data;
 };
 
+const deleteBatch = async (batchId) => {
+  const requestBody = {
+    batchId,
+  };
+
+  const requestParams = {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json', ...defaultOptions },
+    body: JSON.stringify({
+      ...requestBody,
+    }),
+  };
+
+  const result = await fetch(`${BACKEND_URL}${routes.Authentication}${routes.BatchesPage}`, requestParams);
+  const data = await getResponse(result);
+  if (data.error) {
+    console.log('error deleting batch');
+  }
+  return data;
+};
+
 export const instructorService = {
   editBatch,
+  deleteBatch,
 };

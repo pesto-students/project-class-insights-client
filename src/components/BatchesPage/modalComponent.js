@@ -197,10 +197,10 @@ class BatchesModal extends Component {
             </Row>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" type="submit">
+            <Button color="success" type="submit">
               Save changes
             </Button>
-            <Button color="secondary" onClick={toggleModalFunction}>
+            <Button color="danger" onClick={toggleModalFunction}>
               Cancel
             </Button>
           </ModalFooter>

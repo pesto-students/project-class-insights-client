@@ -7,6 +7,7 @@ import {
   Row,
   Col,
   Button,
+  ButtonGroup,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
@@ -17,6 +18,7 @@ import { defaultOptions } from '../../helpers/auth-header';
 import BatchesModal from './modalComponent';
 import Loader from '../Loader';
 import { dataTest } from '../../constants/dataTest.constants';
+import { instructorService } from '../../services/instructor.services';
 
 class BatchesPage extends Component {
   constructor(props) {
@@ -32,12 +34,18 @@ class BatchesPage extends Component {
       },
       data: [],
     };
-    this.manageBatch = this.manageBatch.bind(this);
+    this.fetchAndRenderBatches = this.fetchAndRenderBatches.bind(this);
+    this.editBatch = this.editBatch.bind(this);
+    this.deleteBatch = this.deleteBatch.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.updateBatchInfo = this.updateBatchInfo.bind(this);
   }
 
   async componentWillMount() {
+    this.fetchAndRenderBatches();
+  }
+
+  async fetchAndRenderBatches() {
     this.setState(() => ({
       isLoading: true,
     }));
@@ -74,11 +82,30 @@ class BatchesPage extends Component {
     this.toggleModal();
   }
 
-  manageBatch(batch) {
+  editBatch(batch) {
     this.setState(() => ({
       selectedBatch: batch,
     }));
     this.toggleModal();
+  }
+
+  async deleteBatch(batchID) {
+    this.setState(() => ({
+      isLoading: true,
+    }));
+    try {
+      const response = await instructorService.deleteBatch(batchID);
+      this.fetchAndRenderBatches();
+      this.setState(() => ({
+        response: response.success,
+        isLoading: false,
+      }));
+    } catch (error) {
+      this.setState(() => ({
+        response: 'Could not delete batch',
+        isLoading: false,
+      }));
+    }
   }
 
   render() {
@@ -87,6 +114,13 @@ class BatchesPage extends Component {
       {
         Header: 'Batch ID',
         accessor: 'batchID',
+        Cell: row => (
+          <span>
+            <NavLink to={row.original.details}>
+              {row.value}
+            </NavLink>
+          </span>
+        ),
       },
       {
         Header: 'Status',
@@ -124,27 +158,27 @@ class BatchesPage extends Component {
         ),
         accessor: 'batchID',
         Cell: row => (
-          <Row className="align-items-center">
+          <ButtonGroup className="align-items-center">
             <Button
               type="button"
-              onClick={() => this.manageBatch(row.original)}
+              onClick={() => this.editBatch(row.original)}
               size="sm"
-              className="mx-auto"
+              className="btn-primary"
             >
-              Manage
+              Edit
             </Button>
-          </Row>
-        ),
-      },
-      {
-        Header: 'Details',
-        accessor: 'details',
-        Cell: row => (
-          <Row className="align-items-center">
-            <NavLink to={row.value} className=" mx-auto btn btn-secondary btn-sm">
+            <Button
+              type="button"
+              onClick={() => this.deleteBatch(row.value)}
+              size="sm"
+              className="btn-danger"
+            >
+              Delete
+            </Button>
+            <NavLink to={row.original.details} className=" mx-auto btn btn-success btn-sm">
               Batch Details
             </NavLink>
-          </Row>
+          </ButtonGroup>
         ),
       },
     ];
@@ -163,21 +197,42 @@ class BatchesPage extends Component {
 
     return (
       <Container>
-        <Row className="align-items-center h-100">
-          <Col className="mx-auto">
-            <h2 className="text-center">
-              Batches List
-            </h2>
-          </Col>
-        </Row>
-        <Row>
+        {data.length > 0 ? (
+          <div>
+            <Row className="align-items-center h-100">
+              <Col className="mx-auto">
+                <h2 className="text-center">
+                  Batches List
+                </h2>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <ReactTable
+                  data={data}
+                  columns={columns}
+                  defaultPageSize={5}
+                  className="-striped -highlight"
+                />
+              </Col>
+            </Row>
+          </div>
+        )
+          : (
+            <Row className="mt-5">
+              <Col>
+                <h3 className="text-center">
+                  You have not created any batches yet
+                </h3>
+              </Col>
+            </Row>
+          )
+        }
+        <Row className="mt-3">
           <Col>
-            <ReactTable
-              data={data}
-              columns={columns}
-              defaultPageSize={5}
-              className="-striped -highlight"
-            />
+            <NavLink to="/addBatch" className=" mx-auto btn btn-primary btn-block" data-test={dataTest.addBatchButton}>
+              Create a new Batch
+            </NavLink>
           </Col>
         </Row>
         <BatchesModal
@@ -187,13 +242,6 @@ class BatchesPage extends Component {
           className={className}
           batchDetails={selectedBatch}
         />
-        <Row className="mt-3">
-          <Col>
-            <NavLink to="/addBatch" className=" mx-auto btn btn-primary btn-block" data-test={dataTest.addBatchButton}>
-              Add Batch
-            </NavLink>
-          </Col>
-        </Row>
       </Container>
     );
   }

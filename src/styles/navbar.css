@@ -3,18 +3,18 @@
 }
 
 .navbar {
-  background: linear-gradient(to right, #1f1c31, #0174b2);
+  background: linear-gradient(to right, #0160b2, #0174b2);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
 }
 
-.navbar-light .navbar-nav .nav-link {
+.navbar-brand,
+.navbar-brand.active,
+.navbar-nav .nav-link {
   color: white;
-}
-
-.navbar-light .navbar-brand {
-  color: white;
+  text-decoration: none;
 }
 
 .navbar-dark .navbar-nav .dropdown-item .nav-link {
   color: #212529;
+  text-decoration: none;
 }

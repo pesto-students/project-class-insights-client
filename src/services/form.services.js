@@ -18,4 +18,6 @@ const getFormById = async (formId) => {
   return formdetails;
 };
 
-export const formServices = { getFormById };
+export const formServices = {
+  getFormById,
+};

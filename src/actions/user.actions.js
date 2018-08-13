@@ -46,8 +46,8 @@ const login = (username, password) => {
       }
       return true;
     } catch (error) {
-      dispatch(failure(error));
-      dispatch(alertActions.error(error));
+      dispatch(failure(error.message));
+      dispatch(alertActions.error(error.message));
       return error.toString();
     }
   };

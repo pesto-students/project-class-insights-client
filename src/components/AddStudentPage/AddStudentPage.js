@@ -40,9 +40,11 @@ class AddStudentPage extends Component {
       isLoading: false,
     }));
     if (result.success) {
-      this.setState({ success: 'Student added successfully' });
+      this.setState({ failure: '' });
+      this.setState({ success: result.success });
     } else {
-      this.setState({ failure: 'Failed to add student' });
+      this.setState({ failure: result.error });
+      this.setState({ success: '' });
     }
   }
 

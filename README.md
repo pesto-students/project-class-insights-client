@@ -21,16 +21,17 @@ Data provides a good feedback to the thinking process of the instructor that hel
 
 # Getting Started
 
-WIP
+Run the following command
+```sh
+yarn && yarn start
+```
 
 ## Stack
-1. Apollo Client - for the interface at client with the graphql
-2. Echarts - for visualization and data representation in graphs.
-3. Material-UI/Rebass
-4. React
-5. Redux - A state container that allows other components an easy to update interface.instead of calling the parent for the data binding the state will be directly accessible to all the components. 
-6. Redux-thunk : It's a middleware used to handle asynchronous actions in redux. It returns the function thus delaying 
-7. Enzyme and Jest for Testing.
+1. React
+2. Redux - A state container that allows other components an easy to update interface.instead of calling the parent for the data binding the state will be directly accessible to all the components. 
+3. Redux-thunk : It's a middleware used to handle asynchronous actions in redux. It returns the function thus delaying 
+4. Enzyme and Jest for Testing.
+5. Puppeteer for end to end testing
 
 Team Members
 ---
